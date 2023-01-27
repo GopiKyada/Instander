@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, StyleSheet, Image } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  Image,
+  Pressable,
+} from "react-native";
 
-const HookEffect = () => {
+const UserList = ({ navigation }) => {
   const [myUserData, setMyUserData] = useState();
   const [isLoaded, setIsLoaded] = useState(true);
 
@@ -23,24 +30,37 @@ const HookEffect = () => {
     getUserData();
   }, []);
 
+  function cardPressHandler() {
+    navigation.navigate("UserDetail");
+  }
+
   return (
     <View style={styles.container}>
       <FlatList
         data={myUserData}
         renderItem={({ item }) => {
           return (
-            <View style={styles.card}>
-              <View style={styles.imgContainer}>
-                <Image
-                  style={styles.img}
-                  source={{ uri: item.user.profile_image.large }}
-                />
+            <Pressable
+              //android_ripple={{ color: "#ccc" }}
+              style={({ pressed }) => [
+                styles.button,
+                pressed ? styles.buttonPressed : null,
+              ]}
+              onPress={cardPressHandler}
+            >
+              <View style={styles.card}>
+                <View style={styles.imgContainer}>
+                  <Image
+                    style={styles.img}
+                    source={{ uri: item.user.profile_image.large }}
+                  />
+                </View>
+                <View style={styles.nameContainer}>
+                  <Text style={styles.nameText}>{item.user.name}</Text>
+                  <Text style={styles.usernameText}>@{item.user.username}</Text>
+                </View>
               </View>
-              <View style={styles.nameContainer}>
-                <Text style={styles.nameText}>{item.user.name}</Text>
-                <Text style={styles.usernameText}>@{item.user.username}</Text>
-              </View>
-            </View>
+            </Pressable>
           );
         }}
       />
@@ -48,13 +68,13 @@ const HookEffect = () => {
   );
 };
 
-export default HookEffect;
+export default UserList;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#dce4e6",
+    //backgroundColor: "#dce4e6",
     flex: 1,
-    paddingTop: 28,
+    paddingTop: 10,
   },
   card: {
     height: 100,
@@ -86,13 +106,19 @@ const styles = StyleSheet.create({
     margin: 15,
   },
   nameText: {
-    //color: "white",
+    color: "black",
     fontSize: 24,
     fontWeight: "bold",
     paddingBottom: 5,
   },
   usernameText: {
-    //color: "white",
+    color: "black",
     fontSize: 15,
+  },
+  button: {
+    flex: 1,
+  },
+  buttonPressed: {
+    opacity: 0.9,
   },
 });
