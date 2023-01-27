@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Image,
   Pressable,
+  TouchableOpacity,
 } from "react-native";
 
 const UserList = ({ navigation }) => {
@@ -31,7 +32,9 @@ const UserList = ({ navigation }) => {
   }, []);
 
   function cardPressHandler() {
-    navigation.navigate("UserDetail");
+    navigation.navigate("UserDetail", {
+      selectedItem: myUserData,
+    });
   }
 
   return (
@@ -40,13 +43,18 @@ const UserList = ({ navigation }) => {
         data={myUserData}
         renderItem={({ item }) => {
           return (
-            <Pressable
-              //android_ripple={{ color: "#ccc" }}
-              style={({ pressed }) => [
-                styles.button,
-                pressed ? styles.buttonPressed : null,
-              ]}
-              onPress={cardPressHandler}
+            <TouchableOpacity
+              // //android_ripple={{ color: "#ccc" }}
+              // style={({ pressed }) => [
+              //   styles.button,
+              //   pressed ? styles.buttonPressed : null,
+              // ]}
+              onPress={() => {
+                navigation.navigate("UserDetail", {
+                  selectedId: item.user.name,
+                  itemArr: item,
+                });
+              }}
             >
               <View style={styles.card}>
                 <View style={styles.imgContainer}>
@@ -60,7 +68,7 @@ const UserList = ({ navigation }) => {
                   <Text style={styles.usernameText}>@{item.user.username}</Text>
                 </View>
               </View>
-            </Pressable>
+            </TouchableOpacity>
           );
         }}
       />
