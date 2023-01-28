@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View, Alert } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
@@ -10,6 +10,10 @@ import UserDetail from "./screens/UserDetail";
 
 const Stack = createNativeStackNavigator();
 
+function messageHandler() {
+  Alert.alert("you have sent message");
+}
+
 export default function App({ route }) {
   return (
     <>
@@ -19,7 +23,6 @@ export default function App({ route }) {
           screenOptions={{
             headerStyle: { backgroundColor: "white" },
             headerTintColor: "black",
-            contentStyle: { backgroundColor: "#dce4e6" },
           }}
         >
           <Stack.Screen name="Users" component={UserList} />
@@ -39,6 +42,7 @@ export default function App({ route }) {
                     name="facebook-messenger"
                     size={30}
                     color="black"
+                    onPress={messageHandler}
                   />
                 );
               },
