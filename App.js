@@ -3,16 +3,12 @@ import { Button, StyleSheet, Text, View, Alert } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
 
 import UserList from "./screens/Userlist";
 import UserDetail from "./screens/UserDetail";
+import Message from "./screens/Message";
 
 const Stack = createNativeStackNavigator();
-
-function messageHandler() {
-  Alert.alert("you have sent message");
-}
 
 export default function App({ route }) {
   return (
@@ -36,18 +32,9 @@ export default function App({ route }) {
                 fontSize: 25,
               },
               headerTitleAlign: "center",
-              headerRight: () => {
-                return (
-                  <FontAwesome5
-                    name="facebook-messenger"
-                    size={30}
-                    color="black"
-                    onPress={messageHandler}
-                  />
-                );
-              },
             })}
           />
+          <Stack.Screen name="Message" component={Message} />
         </Stack.Navigator>
       </NavigationContainer>
     </>
