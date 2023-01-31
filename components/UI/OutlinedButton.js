@@ -26,7 +26,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#0765e0",
     borderRadius: 5,
   },
-  pressed: { opacity: 0.7 },
+  pressed: {
+    opacity: 0.7,
+  },
   text: {
     fontSize: 20,
     fontWeight: "bold",

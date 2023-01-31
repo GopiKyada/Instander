@@ -19,6 +19,8 @@ export default function App({ route }) {
           screenOptions={{
             headerStyle: { backgroundColor: "white" },
             headerTintColor: "black",
+            headerTitleAlign: "center",
+            headerBackVisible: false,
           }}
         >
           <Stack.Screen name="Users" component={UserList} />

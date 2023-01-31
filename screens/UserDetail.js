@@ -21,6 +21,7 @@ import {
 } from "@expo/vector-icons";
 
 import OutlinedButton from "../components/UI/OutlinedButton";
+import OutlinedUnfillButton from "../components/UI/OutlinedUnfillButton";
 
 const UserDetail = ({ route, navigation }) => {
   //const image = require("../images/bgimage.jpg");
@@ -80,20 +81,24 @@ const UserDetail = ({ route, navigation }) => {
         {item.user.location ? (
           <View style={styles.bioContainer}>
             <Text style={styles.titletxt}>Location</Text>
-            <Text style={styles.locationText}>
-              <Ionicons name="location" size={20} color="black" />
-              {item.user.location}
-            </Text>
+            <View style={styles.locationTextContainer}>
+              <Text style={styles.locationText}>
+                <Ionicons name="location" size={20} color="black" />
+                {item.user.location}
+              </Text>
+              <OutlinedUnfillButton children="View on Map" />
+            </View>
           </View>
         ) : null}
         <View style={styles.buttonContainer}>
           <OutlinedButton children="Message" onpress={messageSendHandler} />
           <OutlinedButton children="Follow" />
         </View>
-        <View style={styles.socialmediaContainer}>
-          {/* <Text style={styles.titletxt}>Social Media Appearance</Text> */}
 
-          {item.user.social.instagram_username ? (
+        {/* <Text style={styles.titletxt}>Social Media Appearance</Text> */}
+
+        {item.user.social.instagram_username ? (
+          <View style={styles.socialmediaContainer}>
             <View style={styles.userText}>
               <Entypo
                 name="instagram"
@@ -105,9 +110,11 @@ const UserDetail = ({ route, navigation }) => {
                 {item.user.social.instagram_username}
               </Text>
             </View>
-          ) : null}
+          </View>
+        ) : null}
 
-          {item.user.social.portfolio_url ? (
+        {item.user.social.portfolio_url ? (
+          <View style={styles.socialmediaContainer}>
             <View style={styles.userText}>
               <MaterialCommunityIcons
                 name="web"
@@ -122,9 +129,11 @@ const UserDetail = ({ route, navigation }) => {
                 {item.user.social.portfolio_url}
               </Text>
             </View>
-          ) : null}
+          </View>
+        ) : null}
 
-          {item.user.social.twitter_username ? (
+        {item.user.social.twitter_username ? (
+          <View style={styles.socialmediaContainer}>
             <View style={styles.userText}>
               <AntDesign
                 name="twitter"
@@ -136,9 +145,11 @@ const UserDetail = ({ route, navigation }) => {
                 {item.user.social.twitter_username}
               </Text>
             </View>
-          ) : null}
+          </View>
+        ) : null}
 
-          {item.user.social.paypal_email ? (
+        {item.user.social.paypal_email ? (
+          <View style={styles.socialmediaContainer}>
             <View style={styles.userText}>
               <Entypo
                 name="paypal"
@@ -150,8 +161,8 @@ const UserDetail = ({ route, navigation }) => {
                 {item.user.social.paypal_email}
               </Text>
             </View>
-          ) : null}
-        </View>
+          </View>
+        ) : null}
       </ScrollView>
     </View>
   );
@@ -192,8 +203,6 @@ const styles = StyleSheet.create({
   },
   bioContainer: {
     marginBottom: 20,
-    //height: 140,
-    //minHeight: 140,
     justifyContent: "center",
     backgroundColor: "white",
     paddingBottom: 10,
@@ -202,13 +211,15 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   socialmediaContainer: {
-    marginBottom: 20,
-    //height: 200,
+    marginBottom: 10,
     backgroundColor: "white",
     borderRadius: 10,
     shadowOpacity: 1,
     paddingTop: 10,
     paddingHorizontal: 15,
+  },
+  locationTextContainer: {
+    flexDirection: "row",
   },
   buttonContainer: {
     flexDirection: "row",
@@ -225,7 +236,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
     marginRight: 8,
-    //paddingBottom: 20,
   },
   bioText: {
     fontSize: 15,
@@ -239,7 +249,7 @@ const styles = StyleSheet.create({
   locationText: {
     fontSize: 18,
     // fontWeight: "bold",
-    paddingHorizontal: 20,
+    paddingLeft: 20,
     paddingBottom: 10,
     //textAlign: "center",
   },
