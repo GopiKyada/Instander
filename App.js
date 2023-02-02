@@ -7,6 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 import UserList from "./screens/Userlist";
 import UserDetail from "./screens/UserDetail";
 import Message from "./screens/Message";
+import Popup from "./components/OTHER/Popup";
 
 const Stack = createNativeStackNavigator();
 
@@ -16,12 +17,12 @@ export default function App({ route }) {
       <StatusBar style="dark" />
       <NavigationContainer>
         <Stack.Navigator
-          screenOptions={{
-            headerStyle: { backgroundColor: "white" },
-            headerTintColor: "black",
-            headerTitleAlign: "center",
-            headerBackVisible: false,
-          }}
+        // screenOptions={{
+        //   headerStyle: { backgroundColor: "white" },
+        //   headerTintColor: "black",
+        //   // headerTitleAlign: "center",
+        //   // headerBackVisible: false,
+        // }}
         >
           <Stack.Screen name="Users" component={UserList} />
           <Stack.Screen

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   Pressable,
   TouchableOpacity,
 } from "react-native";
+import Popup from "../components/OTHER/Popup";
 
 const UserList = ({ navigation }) => {
   const [myUserData, setMyUserData] = useState();
@@ -26,6 +27,26 @@ const UserList = ({ navigation }) => {
       //console.log(error);
     }
   };
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return <Popup />;
+      },
+    });
+  });
+
+  // useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     headerRight: () => {
+  //       return (
+  //         <TouchableOpacity style={{ paddingLeft: 15, paddingRight: 15 }}>
+  //           <AntDesign name="bars" size={24} color="black" />
+  //         </TouchableOpacity>
+  //       );
+  //     },
+  //   });
+  // });
 
   useEffect(() => {
     getUserData();
