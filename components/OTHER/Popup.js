@@ -23,11 +23,9 @@ export default function Popup() {
         }
         onRequestClose={hideMenu}
       >
-        <MenuItem onPress={hideMenu}>Menu item 1</MenuItem>
-        <MenuItem onPress={hideMenu}>Menu item 2</MenuItem>
-        <MenuItem disabled>Disabled item</MenuItem>
-        <MenuDivider />
-        <MenuItem onPress={hideMenu}>Menu item 4</MenuItem>
+        <MenuItem onPress={hideMenu}>latest</MenuItem>
+        <MenuItem onPress={hideMenu}>oldest</MenuItem>
+        <MenuItem onPress={hideMenu}>popular</MenuItem>
       </Menu>
     </View>
   );
