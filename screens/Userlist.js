@@ -7,26 +7,48 @@ import {
   Image,
   Pressable,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
+import axios from "axios";
+
 import Popup from "../components/OTHER/Popup";
 
 const UserList = ({ navigation }) => {
-  const [myUserData, setMyUserData] = useState();
-  const [isLoaded, setIsLoaded] = useState(true);
+  // const [myUserData, setMyUserData] = useState();
+  // const [isLoaded, setIsLoaded] = useState(true);
+  const [users, setUsers] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [headerName, setHeaderName] = useState();
 
-  const getUserData = async () => {
-    try {
-      const response = await fetch(
-        "https://api.unsplash.com/photos/?client_id=3jA8JqRSjVb891zVslTQsYPqZEI8bZ1AbIQkkgyJxNw"
-      );
-      const mydata = await response.json();
-      setMyUserData(mydata);
-      setIsLoaded(false);
-      //console.log(mydata);
-    } catch (error) {
-      //console.log(error);
-    }
+  // const getUserData = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       "https://api.unsplash.com/photos/?client_id=3jA8JqRSjVb891zVslTQsYPqZEI8bZ1AbIQkkgyJxNw"
+  //     );
+  //     const mydata = await response.json();
+  //     setMyUserData(mydata);
+  //     setIsLoaded(false);
+  //     //console.log(mydata);
+  //   } catch (error) {
+  //     //console.log(error);
+  //   }
+  // };
+
+  const getUserData = () => {
+    axios
+      .get(
+        `https://api.unsplash.com/photos/?page=${currentPage}&client_id=3jA8JqRSjVb891zVslTQsYPqZEI8bZ1AbIQkkgyJxNw`
+      )
+      .then((res) => {
+        //setUsers(res.data);
+        //console.log(res.data);
+        setUsers([...users, ...res.data]);
+      });
   };
+
+  useEffect(() => {
+    getUserData();
+  }, [currentPage]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -48,50 +70,68 @@ const UserList = ({ navigation }) => {
   //   });
   // });
 
-  useEffect(() => {
-    getUserData();
-  }, []);
+  // useEffect(() => {
+  //   getUserData();
+  // }, []);
 
   function cardPressHandler() {
     navigation.navigate("UserDetail", {
-      selectedItem: myUserData,
+      selectedItem: users,
     });
   }
+
+  const renderItem = ({ item }) => {
+    return (
+      <TouchableOpacity
+        // //android_ripple={{ color: "#ccc" }}
+        // style={({ pressed }) => [
+        //   styles.button,
+        //   pressed ? styles.buttonPressed : null,
+        // ]}
+        onPress={() => {
+          navigation.navigate("UserDetail", {
+            selectedId: item.user.name,
+            itemArr: item,
+          });
+        }}
+      >
+        <View style={styles.card}>
+          <View style={styles.imgContainer}>
+            <Image
+              style={styles.img}
+              source={{ uri: item.user.profile_image.large }}
+            />
+          </View>
+          <View style={styles.nameContainer}>
+            <Text style={styles.nameText}>{item.user.name}</Text>
+            <Text style={styles.usernameText}>@{item.user.username}</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
+  const renderLoader = () => {
+    return (
+      <View style={styles.loader}>
+        <ActivityIndicator size="large" color="#aaa" />
+      </View>
+    );
+  };
+
+  const loadMoreItem = () => {
+    //console.log("Load More Item....");
+    setCurrentPage(currentPage + 1);
+  };
 
   return (
     <View style={styles.container}>
       <FlatList
-        data={myUserData}
-        renderItem={({ item }) => {
-          return (
-            <TouchableOpacity
-              // //android_ripple={{ color: "#ccc" }}
-              // style={({ pressed }) => [
-              //   styles.button,
-              //   pressed ? styles.buttonPressed : null,
-              // ]}
-              onPress={() => {
-                navigation.navigate("UserDetail", {
-                  selectedId: item.user.name,
-                  itemArr: item,
-                });
-              }}
-            >
-              <View style={styles.card}>
-                <View style={styles.imgContainer}>
-                  <Image
-                    style={styles.img}
-                    source={{ uri: item.user.profile_image.large }}
-                  />
-                </View>
-                <View style={styles.nameContainer}>
-                  <Text style={styles.nameText}>{item.user.name}</Text>
-                  <Text style={styles.usernameText}>@{item.user.username}</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          );
-        }}
+        data={users}
+        renderItem={renderItem}
+        ListFooterComponent={renderLoader}
+        onEndReached={loadMoreItem}
+        onEndReachedThreshold={0}
       />
     </View>
   );
@@ -149,5 +189,9 @@ const styles = StyleSheet.create({
   },
   buttonPressed: {
     opacity: 0.9,
+  },
+  loader: {
+    marginVertical: 8,
+    alignItems: "center",
   },
 });
