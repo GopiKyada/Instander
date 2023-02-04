@@ -18,6 +18,7 @@ const UserList = ({ navigation }) => {
   // const [isLoaded, setIsLoaded] = useState(true);
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
   const [headerName, setHeaderName] = useState();
 
   // const getUserData = async () => {
@@ -35,6 +36,7 @@ const UserList = ({ navigation }) => {
   // };
 
   const getUserData = () => {
+    setIsLoading(true);
     axios
       .get(
         `https://api.unsplash.com/photos/?page=${currentPage}&client_id=3jA8JqRSjVb891zVslTQsYPqZEI8bZ1AbIQkkgyJxNw`
@@ -43,6 +45,7 @@ const UserList = ({ navigation }) => {
         //setUsers(res.data);
         //console.log(res.data);
         setUsers([...users, ...res.data]);
+        setIsLoading(false);
       });
   };
 
@@ -112,11 +115,11 @@ const UserList = ({ navigation }) => {
   };
 
   const renderLoader = () => {
-    return (
+    return isLoading ? (
       <View style={styles.loader}>
         <ActivityIndicator size="large" color="#aaa" />
       </View>
-    );
+    ) : null;
   };
 
   const loadMoreItem = () => {
@@ -129,6 +132,7 @@ const UserList = ({ navigation }) => {
       <FlatList
         data={users}
         renderItem={renderItem}
+        keyExtractor={(item) => item.urls.raw}
         ListFooterComponent={renderLoader}
         onEndReached={loadMoreItem}
         onEndReachedThreshold={0}
