@@ -10,14 +10,40 @@ import {
   ActivityIndicator,
 } from "react-native";
 import axios from "axios";
+import { Menu, MenuItem, MenuDivider } from "react-native-material-menu";
+import { AntDesign } from "@expo/vector-icons";
 
-import Popup from "../components/OTHER/Popup";
+// import Popup from "../components/OTHER/Popup";
 
 const UserList = ({ navigation }) => {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [orderBy, setOrderBy] = useState(null);
+
+  const [visible, setVisible] = useState(false);
+
+  const hideMenu = () => setVisible(false);
+
+  const showMenu = () => setVisible(true);
+
+  const latestMenuHandler = () => {
+    setVisible(false);
+    // setOrderBy("latest");
+    // console.log("Latest Menu clicked");
+  };
+
+  const oldestMenuHandler = () => {
+    setVisible(false);
+    // setOrderBy("oldest");
+    // console.log("oldest Menu clicked");
+  };
+
+  const popularMenuHandler = () => {
+    setVisible(false);
+    // setOrderBy("popular");
+    // console.log("Popular Menu clicked");
+  };
 
   const getUserData = () => {
     setIsLoading(true);
@@ -35,12 +61,39 @@ const UserList = ({ navigation }) => {
 
   useEffect(() => {
     getUserData();
-  }, [currentPage]);
+  }, [currentPage, orderBy]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => {
-        return <Popup />;
+        return (
+          <View
+            style={{
+              height: "100%",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Menu
+              visible={visible}
+              anchor={
+                <TouchableOpacity>
+                  <AntDesign
+                    name="bars"
+                    size={24}
+                    color="black"
+                    onPress={showMenu}
+                  />
+                </TouchableOpacity>
+              }
+              onRequestClose={hideMenu}
+            >
+              <MenuItem onPress={latestMenuHandler}>latest</MenuItem>
+              <MenuItem onPress={oldestMenuHandler}>oldest</MenuItem>
+              <MenuItem onPress={popularMenuHandler}>popular</MenuItem>
+            </Menu>
+          </View>
+        );
       },
     });
   });
