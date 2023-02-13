@@ -17,13 +17,13 @@ const UserList = ({ navigation }) => {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
-  const [headerName, setHeaderName] = useState();
+  const [orderBy, setOrderBy] = useState(null);
 
   const getUserData = () => {
     setIsLoading(true);
     axios
       .get(
-        `https://api.unsplash.com/photos/?page=${currentPage}&order_by=&client_id=3jA8JqRSjVb891zVslTQsYPqZEI8bZ1AbIQkkgyJxNw`
+        `https://api.unsplash.com/photos/?page=${currentPage}&order_by=${orderBy}&client_id=3jA8JqRSjVb891zVslTQsYPqZEI8bZ1AbIQkkgyJxNw`
       )
       .then((res) => {
         //setUsers(res.data);
@@ -95,7 +95,7 @@ const UserList = ({ navigation }) => {
       <FlatList
         data={users}
         renderItem={renderItem}
-        keyExtractor={(item) => item.urls.raw}
+        keyExtractor={(item, index) => index}
         ListFooterComponent={renderLoader}
         onEndReached={loadMoreItem}
         onEndReachedThreshold={0}
