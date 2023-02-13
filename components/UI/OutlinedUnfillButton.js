@@ -19,18 +19,12 @@ const styles = StyleSheet.create({
   buttonContainer: {
     position: "absolute",
     right: 10,
-    //justifyContent: "flex-end",
   },
   button: {
     paddingHorizontal: 5,
     paddingVertical: 2,
-    //marginHorizontal: 8,
-    //flexDirection: "row",
-    //justifyContent: "center",
-    //alignItems: "center",
     borderWidth: 2,
     borderColor: "#dce4e6",
-    //backgroundColor: "#0765e0",
     borderRadius: 5,
     alignItems: "flex-end",
   },
@@ -39,7 +33,5 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 15,
-    //fontWeight: "bold",
-    //color: "white",
   },
 });

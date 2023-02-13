@@ -24,7 +24,6 @@ import OutlinedButton from "../components/UI/OutlinedButton";
 import OutlinedUnfillButton from "../components/UI/OutlinedUnfillButton";
 
 const UserDetail = ({ route, navigation }) => {
-  //const image = require("../images/bgimage.jpg");
   const item = route.params.itemArr;
   //console.log(route);
   function messageSendHandler() {
@@ -58,7 +57,6 @@ const UserDetail = ({ route, navigation }) => {
         <View style={styles.simpleContainer}>
           <Text style={styles.titletxt}>{item.user.name}</Text>
           <Text style={styles.imptxt}>@{item.user.username}</Text>
-          {/* <Text numberOfLines={1}>────────────────────────</Text> */}
         </View>
         <View style={styles.likeandPostContainer}>
           <View style={styles.likeContainer}>
@@ -94,8 +92,6 @@ const UserDetail = ({ route, navigation }) => {
           <OutlinedButton children="Message" onpress={messageSendHandler} />
           <OutlinedButton children="Follow" />
         </View>
-
-        {/* <Text style={styles.titletxt}>Social Media Appearance</Text> */}
 
         {item.user.social.instagram_username ? (
           <View style={styles.socialmediaContainer}>
@@ -172,13 +168,9 @@ export default UserDetail;
 
 const styles = StyleSheet.create({
   container: {
-    //paddingTop: 30,
     marginHorizontal: 30,
   },
   imgContainer: {
-    //width: 350,
-    //height: 350,
-    //margin: 30,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -248,17 +240,14 @@ const styles = StyleSheet.create({
   },
   locationText: {
     fontSize: 18,
-    // fontWeight: "bold",
     paddingLeft: 20,
     paddingBottom: 10,
-    //textAlign: "center",
   },
   likeContainer: {
     width: 170,
     justifyContent: "center",
     alignItems: "center",
     marginRight: 10,
-    //paddingHorizontal: 50,
     height: 100,
     backgroundColor: "white",
     borderRadius: 10,
@@ -268,8 +257,6 @@ const styles = StyleSheet.create({
     width: 170,
     justifyContent: "center",
     alignItems: "center",
-    //marginLeft: 20,
-    //paddingHorizontal: 50,
     height: 100,
     backgroundColor: "white",
     borderRadius: 10,

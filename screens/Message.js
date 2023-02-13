@@ -16,7 +16,6 @@ export default Message;
 
 const styles = StyleSheet.create({
   container: {
-    // alignItems: "center",
     flexDirection: "row",
     position: "absolute", //Here is the trick
     bottom: 10, //Here is the trick
