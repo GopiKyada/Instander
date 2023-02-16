@@ -13,8 +13,6 @@ import axios from "axios";
 import { Menu, MenuItem, MenuDivider } from "react-native-material-menu";
 import { AntDesign } from "@expo/vector-icons";
 
-// import Popup from "../components/OTHER/Popup";
-
 const UserList = ({ navigation }) => {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);

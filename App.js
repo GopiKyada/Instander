@@ -7,7 +7,6 @@ import { Ionicons } from "@expo/vector-icons";
 import UserList from "./screens/Userlist";
 import UserDetail from "./screens/UserDetail";
 import Message from "./screens/Message";
-import Popup from "./components/OTHER/Popup";
 
 const Stack = createNativeStackNavigator();
 
