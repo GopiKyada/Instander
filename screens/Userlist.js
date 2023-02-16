@@ -29,23 +29,39 @@ const UserList = ({ navigation }) => {
 
   const latestMenuHandler = () => {
     setVisible(false);
-    // setOrderBy("latest");
+    setOrderBy("latest");
+    setCurrentPage(1);
+    setUsers([]);
     // console.log("Latest Menu clicked");
   };
 
   const oldestMenuHandler = () => {
     setVisible(false);
-    // setOrderBy("oldest");
+    navigation.navigate("Users");
+    setOrderBy("oldest");
+    console.log(orderBy);
+    setCurrentPage(1);
+    setUsers([]);
     // console.log("oldest Menu clicked");
   };
 
   const popularMenuHandler = () => {
     setVisible(false);
-    // setOrderBy("popular");
+    setOrderBy("popular");
+    setCurrentPage(1);
+    setUsers([]);
     // console.log("Popular Menu clicked");
   };
 
   const getUserData = () => {
+    // alert(currentPage + " = " + orderBy);
+    // alert(
+    //   "https://api.unsplash.com/photos/?page=${" +
+    //     currentPage +
+    //     "}&order_by=${" +
+    //     orderBy +
+    //     "}&client_id=3jA8JqRSjVb891zVslTQsYPqZEI8bZ1AbIQkkgyJxNw"
+    // );
     setIsLoading(true);
     axios
       .get(
@@ -61,6 +77,7 @@ const UserList = ({ navigation }) => {
 
   useEffect(() => {
     getUserData();
+    //console.log(getUserData);
   }, [currentPage, orderBy]);
 
   useLayoutEffect(() => {
