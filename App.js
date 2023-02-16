@@ -2,7 +2,6 @@ import { StatusBar } from "expo-status-bar";
 import { Button, StyleSheet, Text, View, Alert } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Ionicons } from "@expo/vector-icons";
 
 import UserList from "./screens/Userlist";
 import UserDetail from "./screens/UserDetail";
@@ -15,14 +14,7 @@ export default function App({ route }) {
     <>
       <StatusBar style="dark" />
       <NavigationContainer>
-        <Stack.Navigator
-        // screenOptions={{
-        //   headerStyle: { backgroundColor: "white" },
-        //   headerTintColor: "black",
-        //   // headerTitleAlign: "center",
-        //   // headerBackVisible: false,
-        // }}
-        >
+        <Stack.Navigator>
           <Stack.Screen name="Users" component={UserList} />
           <Stack.Screen
             name="UserDetail"
