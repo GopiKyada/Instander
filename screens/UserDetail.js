@@ -1,17 +1,14 @@
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useState, useEffect } from "react";
 import {
+  ScrollView,
   View,
   Text,
-  Button,
   Image,
   StyleSheet,
-  FlatList,
-  ImageBackground,
-  Alert,
   Linking,
+  SafeAreaView,
 } from "react-native";
 
-import { ScrollView } from "react-native-gesture-handler";
 import {
   Ionicons,
   Entypo,
@@ -22,13 +19,53 @@ import {
 
 import OutlinedButton from "../components/UI/OutlinedButton";
 import OutlinedUnfillButton from "../components/UI/OutlinedUnfillButton";
+import TabButton from "../components/UI/TabButton";
 
 const UserDetail = ({ route, navigation }) => {
-  const item = route.params.itemArr;
-  //console.log(route);
-  function messageSendHandler() {
-    navigation.navigate("Message");
-  }
+  const [myUserData, setMyUserData] = useState();
+  const [imageList, setImageList] = useState([]); //image list has blank array
+
+  const image =
+    "https://w7.pngwing.com/pngs/208/269/png-transparent-youtube-play-button-computer-icons-youtube-youtube-logo-angle-rectangle-logo-thumbnail.png";
+
+  // const imageList = [
+  //   {
+  //     id: 1,
+  //     uri: image,
+  //   },
+  //   {
+  //     id: 2,
+  //     uri: "https://cdn.pixabay.com/photo/2020/11/01/04/17/youtube-5702828_1280.png",
+  //   },
+  //   {
+  //     id: 3,
+  //     uri: "https://cdn-icons-png.flaticon.com/512/48/48968.png",
+  //   },
+  // ];
+
+  const getUserImageData = async () => {
+    try {
+      const response = await fetch(
+        "https://api.unsplash.com/users/maxberg/photos/?per_page=4&client_id=3jA8JqRSjVb891zVslTQsYPqZEI8bZ1AbIQkkgyJxNw"
+      );
+      const mydata = await response.json();
+      const updatedImages = mydata.map((img) => ({
+        id: img.id,
+        uri: img.urls.thumb,
+      }));
+      setImageList(updatedImages);
+
+      // setMyUserData(mydata);
+      // console.warn(mydata[0].urls.thumb);
+      //   alert(data.urls.thumb);
+    } catch (error) {
+      //console.log(error);
+    }
+  };
+  // console.log(imageList);
+  useEffect(() => {
+    getUserImageData();
+  }, []);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -45,55 +82,62 @@ const UserDetail = ({ route, navigation }) => {
     });
   });
 
+  const items = route.params.itemArr;
+  //console.log(route);
+  function messageSendHandler() {
+    navigation.navigate("Message");
+  }
+
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.imgContainer}>
           <Image
             style={styles.img}
-            source={{ uri: item.user.profile_image.large }}
+            source={{ uri: items.user.profile_image.large }}
           />
         </View>
         <View style={styles.simpleContainer}>
-          <Text style={styles.titletxt}>{item.user.name}</Text>
-          <Text style={styles.imptxt}>@{item.user.username}</Text>
+          <Text style={styles.titletxt}>{items.user.name}</Text>
+          <Text style={styles.imptxt}>@{items.user.username}</Text>
         </View>
         <View style={styles.likeandPostContainer}>
           <View style={styles.likeContainer}>
             <Text style={styles.titletxt}>Likes</Text>
-            <Text style={styles.text}>{item.user.total_likes}</Text>
+            <Text style={styles.text}>{items.user.total_likes}</Text>
           </View>
           <View style={styles.postContainer}>
             <Text style={styles.titletxt}>Posts</Text>
-            <Text style={styles.text}>{item.user.total_photos}</Text>
+            <Text style={styles.text}>{items.user.total_photos}</Text>
           </View>
         </View>
 
-        {item.user.bio ? (
+        {items.user.bio ? (
           <View style={styles.bioContainer}>
             <Text style={styles.titletxt}>Bio</Text>
-            <Text style={styles.bioText}>{item.user.bio}</Text>
+            <Text style={styles.bioText}>{items.user.bio}</Text>
           </View>
         ) : null}
 
-        {item.user.location ? (
+        {items.user.location ? (
           <View style={styles.bioContainer}>
             <Text style={styles.titletxt}>Location</Text>
             <View style={styles.locationTextContainer}>
               <Text style={styles.locationText}>
                 <Ionicons name="location" size={20} color="black" />
-                {item.user.location}
+                {items.user.location}
               </Text>
               <OutlinedUnfillButton children="View on Map" />
             </View>
           </View>
         ) : null}
+
         <View style={styles.buttonContainer}>
           <OutlinedButton children="Message" onpress={messageSendHandler} />
           <OutlinedButton children="Follow" />
         </View>
 
-        {item.user.social.instagram_username ? (
+        {items.user.social.instagram_username ? (
           <View style={styles.socialmediaContainer}>
             <View style={styles.userText}>
               <Entypo
@@ -103,13 +147,13 @@ const UserDetail = ({ route, navigation }) => {
                 style={styles.icon}
               />
               <Text style={styles.socialmediaText}>
-                {item.user.social.instagram_username}
+                {items.user.social.instagram_username}
               </Text>
             </View>
           </View>
         ) : null}
 
-        {item.user.social.portfolio_url ? (
+        {items.user.social.portfolio_url ? (
           <View style={styles.socialmediaContainer}>
             <View style={styles.userText}>
               <MaterialCommunityIcons
@@ -120,15 +164,15 @@ const UserDetail = ({ route, navigation }) => {
               />
               <Text
                 style={styles.linkText}
-                onPress={() => Linking.openURL(item.user.social.portfolio_url)}
+                onPress={() => Linking.openURL(items.user.social.portfolio_url)}
               >
-                {item.user.social.portfolio_url}
+                {items.user.social.portfolio_url}
               </Text>
             </View>
           </View>
         ) : null}
 
-        {item.user.social.twitter_username ? (
+        {items.user.social.twitter_username ? (
           <View style={styles.socialmediaContainer}>
             <View style={styles.userText}>
               <AntDesign
@@ -138,13 +182,13 @@ const UserDetail = ({ route, navigation }) => {
                 style={styles.icon}
               />
               <Text style={styles.socialmediaText}>
-                {item.user.social.twitter_username}
+                {items.user.social.twitter_username}
               </Text>
             </View>
           </View>
         ) : null}
 
-        {item.user.social.paypal_email ? (
+        {items.user.social.paypal_email ? (
           <View style={styles.socialmediaContainer}>
             <View style={styles.userText}>
               <Entypo
@@ -154,19 +198,121 @@ const UserDetail = ({ route, navigation }) => {
                 style={styles.icon}
               />
               <Text style={styles.socialmediaText}>
-                {item.user.social.paypal_email}
+                {items.user.social.paypal_email}
               </Text>
             </View>
           </View>
         ) : null}
+
+        <View style={styles.tabBar}>
+          <TabButton children="Landscape" />
+          <TabButton children="Portrait" />
+          <TabButton children="Squarish" />
+        </View>
+
+        <View style={styles.imagePanel}>
+          <View style={styles.imgContainers}>
+            <Image
+              style={styles.image}
+              source={require("../assets/icon.png")}
+            />
+          </View>
+          <View style={styles.imgContainers}>
+            <Image
+              style={styles.image}
+              source={require("../assets/icon.png")}
+            />
+          </View>
+          <View style={styles.imgContainers}>
+            <Image
+              style={styles.image}
+              source={require("../assets/icon.png")}
+            />
+          </View>
+        </View>
+
+        <View style={styles.imagePanel}>
+          <View style={styles.imgContainers}>
+            <Image
+              style={styles.image}
+              source={require("../assets/icon.png")}
+            />
+          </View>
+          <View style={styles.imgContainers}>
+            <Image
+              style={styles.image}
+              source={require("../assets/icon.png")}
+            />
+          </View>
+          <View style={styles.imgContainers}>
+            <Image
+              style={styles.image}
+              source={require("../assets/icon.png")}
+            />
+          </View>
+        </View>
+
+        <View style={styles.imagePanel}>
+          <View style={styles.imgContainers}>
+            <Image
+              style={styles.image}
+              source={require("../assets/icon.png")}
+            />
+          </View>
+          <View style={styles.imgContainers}>
+            <Image
+              style={styles.image}
+              source={require("../assets/icon.png")}
+            />
+          </View>
+          <View style={styles.imgContainers}>
+            <Image
+              style={styles.image}
+              source={require("../assets/icon.png")}
+            />
+          </View>
+        </View>
+        <View style={styles.imagePanel}>
+          {imageList.map((item) => (
+            <View style={styles.imgContainers} key={item.id}>
+              <Image style={styles.demoImg} source={{ uri: item.uri }} />
+            </View>
+          ))}
+        </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
 export default UserDetail;
 
 const styles = StyleSheet.create({
+  demoImageContainer: {
+    height: 100,
+    width: 100,
+    margin: 2,
+  },
+  demoImg: {
+    height: "100%",
+    width: "100%",
+  },
+
+  imagePanel: {
+    flexDirection: "row",
+  },
+  imgContainers: {
+    height: 100,
+    width: "31.9%",
+    borderColor: "black",
+    borderWidth: 1,
+    marginVertical: 3,
+    marginHorizontal: 3,
+  },
+  image: {
+    height: "100%",
+    width: "100%",
+  },
+
   container: {
     marginHorizontal: 30,
   },
@@ -276,5 +422,8 @@ const styles = StyleSheet.create({
   },
   simpleContainer: {
     padding: 20,
+  },
+  tabBar: {
+    flexDirection: "row",
   },
 });

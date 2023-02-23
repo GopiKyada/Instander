@@ -5,12 +5,11 @@ import {
   FlatList,
   StyleSheet,
   Image,
-  Pressable,
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
 import axios from "axios";
-import { Menu, MenuItem, MenuDivider } from "react-native-material-menu";
+import { Menu, MenuItem } from "react-native-material-menu";
 import { AntDesign } from "@expo/vector-icons";
 
 const UserList = ({ navigation }) => {
@@ -110,7 +109,7 @@ const UserList = ({ navigation }) => {
       <TouchableOpacity
         onPress={() => {
           navigation.navigate("UserDetail", {
-            selectedId: item.user.name,
+            selectedUsername: item.user.username,
             itemArr: item,
           });
         }}
@@ -123,7 +122,7 @@ const UserList = ({ navigation }) => {
             />
           </View>
           <View style={styles.nameContainer}>
-            <Text style={styles.nameText}>{item.user.name}</Text>
+            <Text  style={styles.nameText}>{item.user.name}</Text>
             <Text style={styles.usernameText}>@{item.user.username}</Text>
           </View>
         </View>
