@@ -23,25 +23,7 @@ import TabButton from "../components/UI/TabButton";
 
 const UserDetail = ({ route, navigation }) => {
   const [myUserData, setMyUserData] = useState();
-  const [imageList, setImageList] = useState([]); //image list has blank array
-
-  const image =
-    "https://w7.pngwing.com/pngs/208/269/png-transparent-youtube-play-button-computer-icons-youtube-youtube-logo-angle-rectangle-logo-thumbnail.png";
-
-  // const imageList = [
-  //   {
-  //     id: 1,
-  //     uri: image,
-  //   },
-  //   {
-  //     id: 2,
-  //     uri: "https://cdn.pixabay.com/photo/2020/11/01/04/17/youtube-5702828_1280.png",
-  //   },
-  //   {
-  //     id: 3,
-  //     uri: "https://cdn-icons-png.flaticon.com/512/48/48968.png",
-  //   },
-  // ];
+  const [imageList, setImageList] = useState([]);
 
   const getUserImageData = async () => {
     try {
@@ -54,15 +36,10 @@ const UserDetail = ({ route, navigation }) => {
         uri: img.urls.thumb,
       }));
       setImageList(updatedImages);
-
-      // setMyUserData(mydata);
-      // console.warn(mydata[0].urls.thumb);
-      //   alert(data.urls.thumb);
     } catch (error) {
-      //console.log(error);
+      console.log(error);
     }
   };
-  // console.log(imageList);
   useEffect(() => {
     getUserImageData();
   }, []);
@@ -83,7 +60,6 @@ const UserDetail = ({ route, navigation }) => {
   });
 
   const items = route.params.itemArr;
-  //console.log(route);
   function messageSendHandler() {
     navigation.navigate("Message");
   }
@@ -210,68 +186,6 @@ const UserDetail = ({ route, navigation }) => {
           <TabButton children="Squarish" />
         </View>
 
-        <View style={styles.imagePanel}>
-          <View style={styles.imgContainers}>
-            <Image
-              style={styles.image}
-              source={require("../assets/icon.png")}
-            />
-          </View>
-          <View style={styles.imgContainers}>
-            <Image
-              style={styles.image}
-              source={require("../assets/icon.png")}
-            />
-          </View>
-          <View style={styles.imgContainers}>
-            <Image
-              style={styles.image}
-              source={require("../assets/icon.png")}
-            />
-          </View>
-        </View>
-
-        <View style={styles.imagePanel}>
-          <View style={styles.imgContainers}>
-            <Image
-              style={styles.image}
-              source={require("../assets/icon.png")}
-            />
-          </View>
-          <View style={styles.imgContainers}>
-            <Image
-              style={styles.image}
-              source={require("../assets/icon.png")}
-            />
-          </View>
-          <View style={styles.imgContainers}>
-            <Image
-              style={styles.image}
-              source={require("../assets/icon.png")}
-            />
-          </View>
-        </View>
-
-        <View style={styles.imagePanel}>
-          <View style={styles.imgContainers}>
-            <Image
-              style={styles.image}
-              source={require("../assets/icon.png")}
-            />
-          </View>
-          <View style={styles.imgContainers}>
-            <Image
-              style={styles.image}
-              source={require("../assets/icon.png")}
-            />
-          </View>
-          <View style={styles.imgContainers}>
-            <Image
-              style={styles.image}
-              source={require("../assets/icon.png")}
-            />
-          </View>
-        </View>
         <View style={styles.imagePanel}>
           {imageList.map((item) => (
             <View style={styles.imgContainers} key={item.id}>
