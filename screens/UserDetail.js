@@ -8,7 +8,7 @@ import {
   Linking,
   SafeAreaView,
 } from "react-native";
-
+import MasonryList from "@react-native-seoul/masonry-list";
 import {
   Ionicons,
   Entypo,
@@ -28,7 +28,7 @@ const UserDetail = ({ route, navigation }) => {
   const getUserImageData = async () => {
     try {
       const response = await fetch(
-        "https://api.unsplash.com/users/maxberg/photos/?per_page=4&client_id=3jA8JqRSjVb891zVslTQsYPqZEI8bZ1AbIQkkgyJxNw"
+        `https://api.unsplash.com/users/${items.user.username}/photos/?per_page=&client_id=3jA8JqRSjVb891zVslTQsYPqZEI8bZ1AbIQkkgyJxNw`
       );
       const mydata = await response.json();
       const updatedImages = mydata.map((img) => ({
@@ -189,7 +189,7 @@ const UserDetail = ({ route, navigation }) => {
         <View style={styles.imagePanel}>
           {imageList.map((item) => (
             <View style={styles.imgContainers} key={item.id}>
-              <Image style={styles.demoImg} source={{ uri: item.uri }} />
+              <Image style={styles.image} source={{ uri: item.uri }} />
             </View>
           ))}
         </View>
@@ -201,26 +201,17 @@ const UserDetail = ({ route, navigation }) => {
 export default UserDetail;
 
 const styles = StyleSheet.create({
-  demoImageContainer: {
-    height: 100,
-    width: 100,
-    margin: 2,
-  },
-  demoImg: {
-    height: "100%",
-    width: "100%",
-  },
-
   imagePanel: {
+    flex: 1,
+    flexWrap: "wrap", //flexWrep is use for view overflow image at bottom
     flexDirection: "row",
+    alignItems: "stretch",
   },
   imgContainers: {
     height: 100,
     width: "31.9%",
-    borderColor: "black",
-    borderWidth: 1,
-    marginVertical: 3,
-    marginHorizontal: 3,
+    marginVertical: 2,
+    marginHorizontal: 2,
   },
   image: {
     height: "100%",
