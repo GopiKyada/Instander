@@ -33,7 +33,6 @@ const UserList = ({ navigation }) => {
 
   const oldestMenuHandler = () => {
     setVisible(false);
-    navigation.navigate("Users");
     setOrderBy("oldest");
     console.log(orderBy);
     setCurrentPage(1);
@@ -122,7 +121,7 @@ const UserList = ({ navigation }) => {
             />
           </View>
           <View style={styles.nameContainer}>
-            <Text  style={styles.nameText}>{item.user.name}</Text>
+            <Text style={styles.nameText}>{item.user.name}</Text>
             <Text style={styles.usernameText}>@{item.user.username}</Text>
           </View>
         </View>

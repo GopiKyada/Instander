@@ -8,13 +8,14 @@ import {
   Linking,
   SafeAreaView,
 } from "react-native";
-import MasonryList from "@react-native-seoul/masonry-list";
+
 import {
   Ionicons,
   Entypo,
   MaterialCommunityIcons,
   AntDesign,
   FontAwesome5,
+  MaterialIcons,
 } from "@expo/vector-icons";
 
 import OutlinedButton from "../components/UI/OutlinedButton";
@@ -22,13 +23,29 @@ import OutlinedUnfillButton from "../components/UI/OutlinedUnfillButton";
 import TabButton from "../components/UI/TabButton";
 
 const UserDetail = ({ route, navigation }) => {
-  const [myUserData, setMyUserData] = useState();
   const [imageList, setImageList] = useState([]);
+  const [orientation, setorientation] = useState("landscape");
+  const [orderBy, setorderBy] = useState(null);
+
+  const landscapeHandler = () => {
+    // setImageList([]);
+    setorientation("landscape");
+  };
+
+  const portraitHandler = () => {
+    // setImageList([]);
+    setorientation("portrait");
+  };
+
+  const squarishHandler = () => {
+    // setImageList([]);
+    setorientation("squarish");
+  };
 
   const getUserImageData = async () => {
     try {
       const response = await fetch(
-        `https://api.unsplash.com/users/${items.user.username}/photos/?per_page=&client_id=3jA8JqRSjVb891zVslTQsYPqZEI8bZ1AbIQkkgyJxNw`
+        `https://api.unsplash.com/users/${items.user.username}/photos/?orientation=${orientation}&client_id=3jA8JqRSjVb891zVslTQsYPqZEI8bZ1AbIQkkgyJxNw`
       );
       const mydata = await response.json();
       const updatedImages = mydata.map((img) => ({
@@ -40,9 +57,10 @@ const UserDetail = ({ route, navigation }) => {
       console.log(error);
     }
   };
+
   useEffect(() => {
     getUserImageData();
-  }, []);
+  }, [getUserImageData, orientation]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -180,13 +198,23 @@ const UserDetail = ({ route, navigation }) => {
           </View>
         ) : null}
 
-        <View style={styles.tabBar}>
-          <TabButton children="Landscape" />
-          <TabButton children="Portrait" />
-          <TabButton children="Squarish" />
+        <View style={styles.tab}>
+          <TabButton children="Landscape" onpress={landscapeHandler} />
+          <TabButton children="Portrait" onpress={portraitHandler} />
+          <TabButton children="Squarish" onpress={squarishHandler} />
         </View>
-
         <View style={styles.imagePanel}>
+          {imageList == "" ? (
+            <View style={styles.nullImgTxtContainer}>
+              <MaterialIcons
+                style={styles.nullImgIcon}
+                name="image-not-supported"
+                size={70}
+                color="black"
+              />
+              <Text style={styles.nullImgTxt}>You Have No Images ...</Text>
+            </View>
+          ) : null}
           {imageList.map((item) => (
             <View style={styles.imgContainers} key={item.id}>
               <Image style={styles.image} source={{ uri: item.uri }} />
@@ -201,6 +229,23 @@ const UserDetail = ({ route, navigation }) => {
 export default UserDetail;
 
 const styles = StyleSheet.create({
+  nullImgTxt: {
+    fontSize: 20,
+    // fontWeight: "bold",
+    paddingLeft: 80,
+    opacity: 0.5,
+  },
+  nullImgTxtContainer: {
+    marginVertical: 100,
+  },
+  nullImgIcon: {
+    paddingLeft: 140,
+    paddingBottom: 10,
+    opacity: 0.5,
+  },
+  tab: {
+    flexDirection: "row",
+  },
   imagePanel: {
     flex: 1,
     flexWrap: "wrap", //flexWrep is use for view overflow image at bottom
