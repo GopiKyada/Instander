@@ -199,7 +199,11 @@ const UserDetail = ({ route, navigation }) => {
         ) : null}
 
         <View style={styles.tab}>
-          <TabButton children="Landscape" onpress={landscapeHandler} />
+          <TabButton
+            style={styles.tabButton}
+            children="Landscape"
+            onpress={landscapeHandler}
+          />
           <TabButton children="Portrait" onpress={portraitHandler} />
           <TabButton children="Squarish" onpress={squarishHandler} />
         </View>
@@ -229,6 +233,9 @@ const UserDetail = ({ route, navigation }) => {
 export default UserDetail;
 
 const styles = StyleSheet.create({
+  tabButton: {
+    backgroundColor: "black",
+  },
   nullImgTxt: {
     fontSize: 20,
     // fontWeight: "bold",

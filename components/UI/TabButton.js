@@ -1,10 +1,13 @@
-import { TouchableOpacity, StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, Pressable } from "react-native";
 
 const TabButton = ({ onpress, children }) => {
   return (
-    <TouchableOpacity style={styles.button} onPress={onpress}>
+    <Pressable
+      style={({ pressed }) => [styles.button, pressed && styles.pressed]}
+      onPress={onpress}
+    >
       <Text style={styles.text}>{children}</Text>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 
@@ -21,6 +24,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#dce4e6",
     borderRadius: 5,
+  },
+  pressed: {
+    opacity: 0.7,
   },
   text: {
     fontSize: 20,
