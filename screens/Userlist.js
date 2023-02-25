@@ -97,12 +97,6 @@ const UserList = ({ navigation }) => {
     });
   });
 
-  function cardPressHandler() {
-    navigation.navigate("UserDetail", {
-      selectedItem: users,
-    });
-  }
-
   const renderItem = ({ item }) => {
     return (
       <TouchableOpacity

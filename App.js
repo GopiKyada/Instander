@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import UserList from "./screens/Userlist";
 import UserDetail from "./screens/UserDetail";
 import Message from "./screens/Message";
+import ImageScreen from "./screens/ImageScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,7 @@ export default function App({ route }) {
             })}
           />
           <Stack.Screen name="Message" component={Message} />
+          <Stack.Screen name="Image" component={ImageScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </>

@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Linking,
   SafeAreaView,
+  TouchableOpacity,
 } from "react-native";
 
 import {
@@ -25,7 +26,6 @@ import TabButton from "../components/UI/TabButton";
 const UserDetail = ({ route, navigation }) => {
   const [imageList, setImageList] = useState([]);
   const [orientation, setorientation] = useState("landscape");
-  const [orderBy, setorderBy] = useState(null);
 
   const landscapeHandler = () => {
     // setImageList([]);
@@ -52,6 +52,7 @@ const UserDetail = ({ route, navigation }) => {
         id: img.id,
         uri: img.urls.thumb,
       }));
+      // console.warn(updatedImages);
       setImageList(updatedImages);
     } catch (error) {
       console.log(error);
@@ -199,11 +200,7 @@ const UserDetail = ({ route, navigation }) => {
         ) : null}
 
         <View style={styles.tab}>
-          <TabButton
-            style={styles.tabButton}
-            children="Landscape"
-            onpress={landscapeHandler}
-          />
+          <TabButton children="Landscape" onpress={landscapeHandler} />
           <TabButton children="Portrait" onpress={portraitHandler} />
           <TabButton children="Squarish" onpress={squarishHandler} />
         </View>
@@ -220,9 +217,18 @@ const UserDetail = ({ route, navigation }) => {
             </View>
           ) : null}
           {imageList.map((item) => (
-            <View style={styles.imgContainers} key={item.id}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Image", {
+                  itemId: item.id,
+                  itemImage: item.uri,
+                });
+              }}
+              style={styles.imgContainers}
+              key={item.id}
+            >
               <Image style={styles.image} source={{ uri: item.uri }} />
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
       </ScrollView>
@@ -233,9 +239,6 @@ const UserDetail = ({ route, navigation }) => {
 export default UserDetail;
 
 const styles = StyleSheet.create({
-  tabButton: {
-    backgroundColor: "black",
-  },
   nullImgTxt: {
     fontSize: 20,
     // fontWeight: "bold",
