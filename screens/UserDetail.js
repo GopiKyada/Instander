@@ -34,7 +34,6 @@ const UserDetail = ({ route, navigation }) => {
   const [squarishStyle, setSquarishStyle] = useState(styles.squaishBtn);
 
   const landscapeHandler = () => {
-    // setImageList([]);
     setorientation("landscape");
     setStyle(styles.landscapeImg);
     setLandscapeStyle(styles.buttonLandscapeActive);
@@ -43,7 +42,6 @@ const UserDetail = ({ route, navigation }) => {
   };
 
   const portraitHandler = () => {
-    // setImageList([]);
     setorientation("portrait");
     setStyle(styles.portraitImg);
     setPortraitStyle(styles.portraitBtnActive);
@@ -52,7 +50,6 @@ const UserDetail = ({ route, navigation }) => {
   };
 
   const squarishHandler = () => {
-    // setImageList([]);
     setorientation("squarish");
     setStyle(styles.squarishImg);
     setSquarishStyle(styles.squarishBtnActive);
@@ -70,7 +67,6 @@ const UserDetail = ({ route, navigation }) => {
         id: img.id,
         uri: img.urls.thumb,
       }));
-      // console.warn(updatedImages);
       setImageList(updatedImages);
     } catch (error) {
       console.log(error);
@@ -237,11 +233,6 @@ const UserDetail = ({ route, navigation }) => {
           </TouchableOpacity>
         </View>
 
-        {/* <View style={styles.tab}>
-          <TabButton children="Landscape" onpress={landscapeHandler} />
-          <TabButton children="Portrait" onpress={portraitHandler} />
-          <TabButton children="Squarish" onpress={squarishHandler} />
-        </View> */}
         <View style={styles.imagePanel}>
           {imageList == "" ? (
             <View style={styles.nullImgTxtContainer}>
@@ -279,7 +270,6 @@ export default UserDetail;
 const styles = StyleSheet.create({
   nullImgTxt: {
     fontSize: 20,
-    // fontWeight: "bold",
     paddingLeft: 130,
     opacity: 0.5,
   },
@@ -310,7 +300,6 @@ const styles = StyleSheet.create({
   image: {
     height: "100%",
     width: "100%",
-    // resizeMode: "contain",
     backgroundColor: "white",
   },
 
@@ -480,7 +469,6 @@ const styles = StyleSheet.create({
   portraitBtnActive: {
     width: "33.33%",
     paddingVertical: 10,
-    // backgroundColor: "#FCE8E8",
     backgroundColor: "pink",
   },
   squarishBtnActive: {
@@ -488,7 +476,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 5,
     borderBottomRightRadius: 5,
     paddingVertical: 10,
-    // backgroundColor: "#fbf8e6",
     backgroundColor: "pink",
   },
   lpstxt: {

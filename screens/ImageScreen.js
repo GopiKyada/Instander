@@ -33,7 +33,7 @@ const ImageScreen = ({ route, navigation }) => {
       console.log(error);
     }
   };
-  // console.warn(image);
+
   useEffect(() => {
     getUserImage();
   }, []);
@@ -90,10 +90,6 @@ const styles = StyleSheet.create({
     height: 400,
     width: "100%",
     justifyContent: "center",
-    // borderTopWidth: 1,
-    // borderBottomWidth: 1,
-    // borderTopColor: "white",
-    // borderBottomColor: "white",
   },
   img: {
     height: "100%",
@@ -116,14 +112,11 @@ const styles = StyleSheet.create({
   },
   profileContainer: {
     flexDirection: "row",
-    // borderWidth: 1,
-    // backgroundColor: "white",
   },
   usersNameText: {
     fontSize: 20,
     paddingTop: 20,
     paddingLeft: 20,
-    // fontWeight: "bold",
   },
   userNameTxt: {
     opacity: 0.5,
