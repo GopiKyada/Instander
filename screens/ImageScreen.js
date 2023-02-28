@@ -1,9 +1,16 @@
-import { ScrollView, StyleSheet, Text, View, Image } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import { useEffect, useLayoutEffect, useState } from "react";
+import { AntDesign, Fontisto, FontAwesome } from "@expo/vector-icons";
 
 const ImageScreen = ({ route, navigation }) => {
   const [image, setImage] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(true);
 
   const getUserImage = async () => {
     try {
@@ -17,16 +24,16 @@ const ImageScreen = ({ route, navigation }) => {
         url: mydata.urls.regular,
         profileImg: mydata.user.profile_image.large,
         userName: mydata.user.username,
+        likes: mydata.likes,
+        description: mydata.alt_description,
       };
-      console.warn(updatedImages);
+      // console.warn(updatedImages);
       setImage(updatedImages);
-
-      setIsLoaded(false);
     } catch (error) {
       console.log(error);
     }
   };
-  console.warn(image);
+  // console.warn(image);
   useEffect(() => {
     getUserImage();
   }, []);
@@ -38,7 +45,7 @@ const ImageScreen = ({ route, navigation }) => {
   });
 
   return (
-    <View>
+    <ScrollView>
       <View style={styles.profileContainer}>
         <View style={styles.profileImgContainer}>
           <Image style={styles.profileImg} source={{ uri: image.profileImg }} />
@@ -51,7 +58,28 @@ const ImageScreen = ({ route, navigation }) => {
       <View style={styles.imgContainer}>
         <Image style={styles.img} source={{ uri: image.url }} />
       </View>
-    </View>
+      <View style={styles.descriptionTextContainer}>
+        <Text style={styles.descriptionTxt}>{image.description}</Text>
+      </View>
+      <View style={styles.likeContainer}>
+        <AntDesign
+          style={styles.likeIcon}
+          name="hearto"
+          size={30}
+          color="black"
+        />
+        <Fontisto name="comment" size={30} color="black" />
+        <FontAwesome
+          style={styles.saveIcon}
+          name="bookmark-o"
+          size={30}
+          color="black"
+        />
+      </View>
+      <View>
+        <Text style={styles.likeTxt}>{image.likes} likes</Text>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -61,10 +89,16 @@ const styles = StyleSheet.create({
   imgContainer: {
     height: 400,
     width: "100%",
+    justifyContent: "center",
+    // borderTopWidth: 1,
+    // borderBottomWidth: 1,
+    // borderTopColor: "white",
+    // borderBottomColor: "white",
   },
   img: {
     height: "100%",
     width: "100%",
+    resizeMode: "contain",
   },
   profileImgContainer: {
     height: 70,
@@ -78,10 +112,12 @@ const styles = StyleSheet.create({
   profileImg: {
     height: "100%",
     width: "100%",
+    borderRadius: 50,
   },
   profileContainer: {
     flexDirection: "row",
     // borderWidth: 1,
+    // backgroundColor: "white",
   },
   usersNameText: {
     fontSize: 20,
@@ -92,5 +128,29 @@ const styles = StyleSheet.create({
   userNameTxt: {
     opacity: 0.5,
     paddingLeft: 20,
+  },
+  likeContainer: {
+    flexDirection: "row",
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+  },
+  likeIcon: {
+    paddingRight: 10,
+  },
+  saveIcon: {
+    position: "absolute",
+    right: 10,
+    paddingVertical: 10,
+  },
+  likeTxt: {
+    paddingLeft: 10,
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  descriptionTextContainer: {
+    paddingHorizontal: 10,
+  },
+  descriptionTxt: {
+    fontSize: 15,
   },
 });

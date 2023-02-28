@@ -26,26 +26,44 @@ import TabButton from "../components/UI/TabButton";
 const UserDetail = ({ route, navigation }) => {
   const [imageList, setImageList] = useState([]);
   const [orientation, setorientation] = useState("landscape");
+  const [style, setStyle] = useState(styles.landscapeImg);
+  const [landscapeStyle, setLandscapeStyle] = useState(
+    styles.buttonLandscapeActive
+  );
+  const [portraitStyle, setPortraitStyle] = useState(styles.portraitBtn);
+  const [squarishStyle, setSquarishStyle] = useState(styles.squaishBtn);
 
   const landscapeHandler = () => {
     // setImageList([]);
     setorientation("landscape");
+    setStyle(styles.landscapeImg);
+    setLandscapeStyle(styles.buttonLandscapeActive);
+    setPortraitStyle(styles.portraitBtn);
+    setSquarishStyle(styles.squaishBtn);
   };
 
   const portraitHandler = () => {
     // setImageList([]);
     setorientation("portrait");
+    setStyle(styles.portraitImg);
+    setPortraitStyle(styles.portraitBtnActive);
+    setLandscapeStyle(styles.landscapeBtn);
+    setSquarishStyle(styles.squaishBtn);
   };
 
   const squarishHandler = () => {
     // setImageList([]);
     setorientation("squarish");
+    setStyle(styles.squarishImg);
+    setSquarishStyle(styles.squarishBtnActive);
+    setLandscapeStyle(styles.landscapeBtn);
+    setPortraitStyle(styles.portraitBtn);
   };
 
   const getUserImageData = async () => {
     try {
       const response = await fetch(
-        `https://api.unsplash.com/users/${items.user.username}/photos/?orientation=${orientation}&client_id=3jA8JqRSjVb891zVslTQsYPqZEI8bZ1AbIQkkgyJxNw`
+        `https://api.unsplash.com/users/${items.user.username}/photos/?orientation=${orientation}&per_page=9&client_id=3jA8JqRSjVb891zVslTQsYPqZEI8bZ1AbIQkkgyJxNw`
       );
       const mydata = await response.json();
       const updatedImages = mydata.map((img) => ({
@@ -199,11 +217,31 @@ const UserDetail = ({ route, navigation }) => {
           </View>
         ) : null}
 
-        <View style={styles.tab}>
+        <View
+          style={{
+            flexDirection: "row",
+            marginBottom: 5,
+            borderWidth: 3,
+            borderColor: "white",
+            borderRadius: 5,
+          }}
+        >
+          <TouchableOpacity onPress={landscapeHandler} style={landscapeStyle}>
+            <Text style={styles.lpstxt}>Landscape</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={portraitHandler} style={portraitStyle}>
+            <Text style={styles.lpstxt}>Portrait</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={squarishHandler} style={squarishStyle}>
+            <Text style={styles.lpstxt}>Squarish</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* <View style={styles.tab}>
           <TabButton children="Landscape" onpress={landscapeHandler} />
           <TabButton children="Portrait" onpress={portraitHandler} />
           <TabButton children="Squarish" onpress={squarishHandler} />
-        </View>
+        </View> */}
         <View style={styles.imagePanel}>
           {imageList == "" ? (
             <View style={styles.nullImgTxtContainer}>
@@ -213,7 +251,7 @@ const UserDetail = ({ route, navigation }) => {
                 size={70}
                 color="black"
               />
-              <Text style={styles.nullImgTxt}>You Have No Images ...</Text>
+              <Text style={styles.nullImgTxt}>No Images ...</Text>
             </View>
           ) : null}
           {imageList.map((item) => (
@@ -224,7 +262,7 @@ const UserDetail = ({ route, navigation }) => {
                   itemImage: item.uri,
                 });
               }}
-              style={styles.imgContainers}
+              style={style}
               key={item.id}
             >
               <Image style={styles.image} source={{ uri: item.uri }} />
@@ -242,7 +280,7 @@ const styles = StyleSheet.create({
   nullImgTxt: {
     fontSize: 20,
     // fontWeight: "bold",
-    paddingLeft: 80,
+    paddingLeft: 130,
     opacity: 0.5,
   },
   nullImgTxtContainer: {
@@ -261,6 +299,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap", //flexWrep is use for view overflow image at bottom
     flexDirection: "row",
     alignItems: "stretch",
+    marginBottom: 30,
   },
   imgContainers: {
     height: 100,
@@ -271,6 +310,8 @@ const styles = StyleSheet.create({
   image: {
     height: "100%",
     width: "100%",
+    // resizeMode: "contain",
+    backgroundColor: "white",
   },
 
   container: {
@@ -385,5 +426,74 @@ const styles = StyleSheet.create({
   },
   tabBar: {
     flexDirection: "row",
+  },
+  landscapeImg: {
+    height: 75,
+    width: "31.9%",
+    marginVertical: 2,
+    marginHorizontal: 2,
+    justifyContent: "center",
+  },
+  portraitImg: {
+    height: 150,
+    width: "31.9%",
+    marginVertical: 2,
+    marginHorizontal: 2,
+    justifyContent: "center",
+  },
+  squarishImg: {
+    height: 100,
+    width: "31.9%",
+    marginVertical: 2,
+    marginHorizontal: 2,
+    justifyContent: "center",
+  },
+  landscapeBtn: {
+    borderColor: "white",
+    backgroundColor: "white",
+    width: "33.34%",
+    borderTopLeftRadius: 5,
+    borderBottomLeftRadius: 5,
+    paddingVertical: 10,
+  },
+  portraitBtn: {
+    borderColor: "white",
+    backgroundColor: "white",
+    width: "33.33%",
+    paddingVertical: 10,
+  },
+  squaishBtn: {
+    borderColor: "white",
+    backgroundColor: "white",
+    width: "33.33%",
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
+    paddingVertical: 10,
+  },
+  buttonLandscapeActive: {
+    width: "33.34%",
+    borderTopLeftRadius: 5,
+    borderBottomLeftRadius: 5,
+    paddingVertical: 10,
+    backgroundColor: "pink",
+  },
+  portraitBtnActive: {
+    width: "33.33%",
+    paddingVertical: 10,
+    // backgroundColor: "#FCE8E8",
+    backgroundColor: "pink",
+  },
+  squarishBtnActive: {
+    width: "33.33%",
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
+    paddingVertical: 10,
+    // backgroundColor: "#fbf8e6",
+    backgroundColor: "pink",
+  },
+  lpstxt: {
+    fontSize: 20,
+    textAlign: "center",
+    fontWeight: "bold",
   },
 });
