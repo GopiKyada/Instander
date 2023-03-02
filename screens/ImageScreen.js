@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
   loadingIndicator: {},
   loaderContainer: {
     backgroundColor: "#555",
-    padding: 10,
+    padding: 20,
     borderRadius: 10,
   },
 });

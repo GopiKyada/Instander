@@ -8,6 +8,7 @@ import {
   Linking,
   SafeAreaView,
   TouchableOpacity,
+  Modal,
 } from "react-native";
 
 import {
@@ -31,6 +32,7 @@ const UserDetail = ({ route, navigation }) => {
   );
   const [portraitStyle, setPortraitStyle] = useState(styles.portraitBtn);
   const [squarishStyle, setSquarishStyle] = useState(styles.squaishBtn);
+  const [modalVisible, setmodalVisible] = useState(false);
 
   const landscapeHandler = () => {
     setorientation("landscape");
@@ -93,18 +95,44 @@ const UserDetail = ({ route, navigation }) => {
 
   const items = route.params.itemArr;
   function messageSendHandler() {
-    navigation.navigate("Message");
+    navigation.navigate("Message", {
+      name: items.user.name,
+      userName: items.user.username,
+      profileImage: items.user.profile_image.large,
+    });
   }
 
   return (
     <SafeAreaView style={styles.container}>
+      <View>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setmodalVisible(false);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Image
+                style={styles.modalImg}
+                source={{ uri: items.user.profile_image.large }}
+              />
+            </View>
+          </View>
+        </Modal>
+      </View>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.imgContainer}>
+        <TouchableOpacity
+          onPress={() => setmodalVisible(true)}
+          style={styles.imgContainer}
+        >
           <Image
             style={styles.img}
             source={{ uri: items.user.profile_image.large }}
           />
-        </View>
+        </TouchableOpacity>
         <View style={styles.simpleContainer}>
           <Text style={styles.titletxt}>{items.user.name}</Text>
           <Text style={styles.imptxt}>@{items.user.username}</Text>
@@ -223,33 +251,35 @@ const UserDetail = ({ route, navigation }) => {
             <Text style={styles.lpstxt}>Squarish</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.imagePanel}>
-          {imageList == "" ? (
-            <View style={styles.nullImgTxtContainer}>
-              <MaterialIcons
-                style={styles.nullImgIcon}
-                name="image-not-supported"
-                size={70}
-                color="black"
-              />
-              <Text style={styles.nullImgTxt}>No Images ...</Text>
-            </View>
-          ) : null}
-          {imageList.map((item) => (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("Image", {
-                  itemId: item.id,
-                  itemImage: item.uri,
-                });
-              }}
-              style={style}
-              key={item.id}
-            >
-              <Image style={styles.image} source={{ uri: item.uri }} />
-            </TouchableOpacity>
-          ))}
-        </View>
+
+        {imageList == "" ? (
+          <View style={styles.nullImgTxtContainer}>
+            <MaterialIcons
+              style={styles.nullImgIcon}
+              name="image-not-supported"
+              size={70}
+              color="black"
+            />
+            <Text style={styles.nullImgTxt}>No Images ...</Text>
+          </View>
+        ) : (
+          <View style={styles.imagePanel}>
+            {imageList.map((item) => (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("Image", {
+                    itemId: item.id,
+                    itemImage: item.uri,
+                  });
+                }}
+                style={style}
+                key={item.id}
+              >
+                <Image style={styles.image} source={{ uri: item.uri }} />
+              </TouchableOpacity>
+            ))}
+          </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -258,6 +288,35 @@ const UserDetail = ({ route, navigation }) => {
 export default UserDetail;
 
 const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    height: 200,
+    width: 200,
+    // margin: 20,
+    backgroundColor: "white",
+    borderRadius: 150,  
+    // padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalImg: {
+    height: "100%",
+    width: "100%",
+    resizeMode: "cover",
+    borderRadius: 150,
+  },
   nullImgTxt: {
     fontSize: 20,
     paddingLeft: 130,

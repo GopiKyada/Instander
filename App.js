@@ -39,7 +39,13 @@ export default function App({ route }) {
               headerTitleAlign: "center",
             })}
           />
-          <Stack.Screen name="Message" component={Message} />
+          <Stack.Screen
+            name="Message"
+            component={Message}
+            options={{
+              headerShown: false,
+            }}
+          />
           <Stack.Screen name="Image" component={ImageScreen} />
         </Stack.Navigator>
       </NavigationContainer>
