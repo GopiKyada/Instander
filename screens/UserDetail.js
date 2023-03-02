@@ -104,35 +104,13 @@ const UserDetail = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setmodalVisible(false);
-          }}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Image
-                style={styles.modalImg}
-                source={{ uri: items.user.profile_image.large }}
-              />
-            </View>
-          </View>
-        </Modal>
-      </View>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <TouchableOpacity
-          onPress={() => setmodalVisible(true)}
-          style={styles.imgContainer}
-        >
+        <View style={styles.imgContainer}>
           <Image
             style={styles.img}
             source={{ uri: items.user.profile_image.large }}
           />
-        </TouchableOpacity>
+        </View>
         <View style={styles.simpleContainer}>
           <Text style={styles.titletxt}>{items.user.name}</Text>
           <Text style={styles.imptxt}>@{items.user.username}</Text>
@@ -299,7 +277,7 @@ const styles = StyleSheet.create({
     width: 200,
     // margin: 20,
     backgroundColor: "white",
-    borderRadius: 150,  
+    borderRadius: 150,
     // padding: 35,
     alignItems: "center",
     shadowColor: "#000",
