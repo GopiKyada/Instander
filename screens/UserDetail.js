@@ -21,7 +21,6 @@ import {
 
 import OutlinedButton from "../components/UI/OutlinedButton";
 import OutlinedUnfillButton from "../components/UI/OutlinedUnfillButton";
-import TabButton from "../components/UI/TabButton";
 
 const UserDetail = ({ route, navigation }) => {
   const [imageList, setImageList] = useState([]);
@@ -32,6 +31,7 @@ const UserDetail = ({ route, navigation }) => {
   );
   const [portraitStyle, setPortraitStyle] = useState(styles.portraitBtn);
   const [squarishStyle, setSquarishStyle] = useState(styles.squaishBtn);
+  // const [likedImageList, setLikedImageList] = useState([]);
 
   const landscapeHandler = () => {
     setorientation("landscape");
@@ -73,8 +73,25 @@ const UserDetail = ({ route, navigation }) => {
     }
   };
 
+  // const getLikedImageData = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       `https://api.unsplash.com/users/${items.user.username}/likes/?per_page=1&client_id=3jA8JqRSjVb891zVslTQsYPqZEI8bZ1AbIQkkgyJxNw`
+  //     );
+  //     const data = await response.json();
+  //     const getLikedImageList = data.map((i) => ({
+  //       id: i.id,
+  //       url: i.urls.thumb,
+  //     }));
+  //     setLikedImageList(getLikedImageList);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // console.warn(likedImageList);
   useEffect(() => {
     getUserImageData();
+    // getLikedImageData();
   }, [getUserImageData, orientation]);
 
   useLayoutEffect(() => {
@@ -120,14 +137,12 @@ const UserDetail = ({ route, navigation }) => {
             <Text style={styles.text}>{items.user.total_photos}</Text>
           </View>
         </View>
-
         {items.user.bio ? (
           <View style={styles.bioContainer}>
             <Text style={styles.titletxt}>Bio</Text>
             <Text style={styles.bioText}>{items.user.bio}</Text>
           </View>
         ) : null}
-
         {items.user.location ? (
           <View style={styles.bioContainer}>
             <Text style={styles.titletxt}>Location</Text>
@@ -140,12 +155,10 @@ const UserDetail = ({ route, navigation }) => {
             </View>
           </View>
         ) : null}
-
         <View style={styles.buttonContainer}>
           <OutlinedButton children="Message" onpress={messageSendHandler} />
           <OutlinedButton children="Follow" />
         </View>
-
         {items.user.social.instagram_username ? (
           <View style={styles.socialmediaContainer}>
             <View style={styles.userText}>
@@ -161,7 +174,6 @@ const UserDetail = ({ route, navigation }) => {
             </View>
           </View>
         ) : null}
-
         {items.user.social.portfolio_url ? (
           <View style={styles.socialmediaContainer}>
             <View style={styles.userText}>
@@ -180,7 +192,6 @@ const UserDetail = ({ route, navigation }) => {
             </View>
           </View>
         ) : null}
-
         {items.user.social.twitter_username ? (
           <View style={styles.socialmediaContainer}>
             <View style={styles.userText}>
@@ -196,7 +207,6 @@ const UserDetail = ({ route, navigation }) => {
             </View>
           </View>
         ) : null}
-
         {items.user.social.paypal_email ? (
           <View style={styles.socialmediaContainer}>
             <View style={styles.userText}>
@@ -212,7 +222,6 @@ const UserDetail = ({ route, navigation }) => {
             </View>
           </View>
         ) : null}
-
         <View
           style={{
             flexDirection: "row",
@@ -232,7 +241,6 @@ const UserDetail = ({ route, navigation }) => {
             <Text style={styles.lpstxt}>Squarish</Text>
           </TouchableOpacity>
         </View>
-
         <View style={styles.imagePanel}>
           {imageList == "" ? (
             <View style={styles.nullImgTxtContainer}>
@@ -260,6 +268,36 @@ const UserDetail = ({ route, navigation }) => {
             </TouchableOpacity>
           ))}
         </View>
+        {/* <View style={styles.bioContainer}>
+          <Text style={styles.titletxt}>Liked Images</Text>
+        </View>
+        <View style={styles.imagePanel}>
+          {likedImageList == "" ? (
+            <View style={styles.nullImgTxtContainer}>
+              <MaterialIcons
+                style={styles.nullImgIcon}
+                name="image-not-supported"
+                size={70}
+                color="black"
+              />
+              <Text style={styles.nullImgTxt}>No Images ...</Text>
+            </View>
+          ) : null}
+          {likedImageList.map((item) => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Image", {
+                  itemId: item.id,
+                  itemImage: item.uri,
+                });
+              }}
+              style={style}
+              key={item.id}
+            >
+              <Image style={styles.image} source={{ uri: item.url }} />
+            </TouchableOpacity>
+          ))}
+        </View> */}
       </ScrollView>
     </SafeAreaView>
   );

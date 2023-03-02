@@ -5,14 +5,17 @@ import {
   View,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { AntDesign, Fontisto, FontAwesome } from "@expo/vector-icons";
 
 const ImageScreen = ({ route, navigation }) => {
   const [image, setImage] = useState([]);
+  const [loading, setLoading] = useState();
 
   const getUserImage = async () => {
+    setLoading(true);
     try {
       const response = await fetch(
         `https://api.unsplash.com/photos/${route.params.itemId}/?client_id=3jA8JqRSjVb891zVslTQsYPqZEI8bZ1AbIQkkgyJxNw`
@@ -29,6 +32,7 @@ const ImageScreen = ({ route, navigation }) => {
       };
       // console.warn(updatedImages);
       setImage(updatedImages);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -46,39 +50,57 @@ const ImageScreen = ({ route, navigation }) => {
 
   return (
     <ScrollView>
-      <View style={styles.profileContainer}>
-        <View style={styles.profileImgContainer}>
-          <Image style={styles.profileImg} source={{ uri: image.profileImg }} />
+      {loading ? (
+        <View style={styles.loader}>
+          <View style={styles.loaderContainer}>
+            <ActivityIndicator
+              style={styles.loadingIndicator}
+              size="large"
+              color="#aaa"
+            />
+            <Text style={styles.loadingTxt}>Loading...</Text>
+          </View>
         </View>
+      ) : (
         <View>
-          <Text style={styles.usersNameText}>{image.name}</Text>
-          <Text style={styles.userNameTxt}>@{image.userName}</Text>
+          <View style={styles.profileContainer}>
+            <View style={styles.profileImgContainer}>
+              <Image
+                style={styles.profileImg}
+                source={{ uri: image.profileImg }}
+              />
+            </View>
+            <View>
+              <Text style={styles.usersNameText}>{image.name}</Text>
+              <Text style={styles.userNameTxt}>@{image.userName}</Text>
+            </View>
+          </View>
+          <View style={styles.imgContainer}>
+            <Image style={styles.img} source={{ uri: image.url }} />
+          </View>
+          <View style={styles.descriptionTextContainer}>
+            <Text style={styles.descriptionTxt}>{image.description}</Text>
+          </View>
+          <View style={styles.likeContainer}>
+            <AntDesign
+              style={styles.likeIcon}
+              name="hearto"
+              size={30}
+              color="black"
+            />
+            <Fontisto name="comment" size={30} color="black" />
+            <FontAwesome
+              style={styles.saveIcon}
+              name="bookmark-o"
+              size={30}
+              color="black"
+            />
+          </View>
+          <View>
+            <Text style={styles.likeTxt}>{image.likes} likes</Text>
+          </View>
         </View>
-      </View>
-      <View style={styles.imgContainer}>
-        <Image style={styles.img} source={{ uri: image.url }} />
-      </View>
-      <View style={styles.descriptionTextContainer}>
-        <Text style={styles.descriptionTxt}>{image.description}</Text>
-      </View>
-      <View style={styles.likeContainer}>
-        <AntDesign
-          style={styles.likeIcon}
-          name="hearto"
-          size={30}
-          color="black"
-        />
-        <Fontisto name="comment" size={30} color="black" />
-        <FontAwesome
-          style={styles.saveIcon}
-          name="bookmark-o"
-          size={30}
-          color="black"
-        />
-      </View>
-      <View>
-        <Text style={styles.likeTxt}>{image.likes} likes</Text>
-      </View>
+      )}
     </ScrollView>
   );
 };
@@ -145,5 +167,21 @@ const styles = StyleSheet.create({
   },
   descriptionTxt: {
     fontSize: 15,
+  },
+  loader: {
+    marginVertical: 380,
+    alignItems: "center",
+    // backgroundColor: "red",
+    // justifyContent: "center",
+  },
+  loadingTxt: {
+    fontSize: 20,
+    color: "white",
+  },
+  loadingIndicator: {},
+  loaderContainer: {
+    backgroundColor: "#555",
+    padding: 10,
+    borderRadius: 10,
   },
 });

@@ -16,7 +16,17 @@ export default function App({ route }) {
       <StatusBar style="dark" />
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Users" component={UserList} />
+          <Stack.Screen
+            name="Users"
+            component={UserList}
+            options={{
+              title: "Instander",
+              headerTitleStyle: {
+                fontWeight: "bold",
+                fontSize: 25,
+              },
+            }}
+          />
           <Stack.Screen
             name="UserDetail"
             component={UserDetail}
