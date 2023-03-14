@@ -5,10 +5,11 @@ import {
   TextInput,
   SafeAreaView,
   Image,
+  TouchableOpacity,
 } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, Feather, Ionicons } from "@expo/vector-icons";
 
-function Message({ route }) {
+function Message({ route, navigation }) {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.usrProfileContainer}>
@@ -22,6 +23,24 @@ function Message({ route }) {
           <Text style={styles.usrsnameTxt}>{route.params.name}</Text>
           <Text style={styles.usrnameTxt}>@{route.params.userName}</Text>
         </View>
+        <TouchableOpacity style={styles.infoIcon}>
+          <Feather
+            name="info"
+            size={30}
+            color="black"
+            onPress={() => {
+              navigation.navigate("UserDetail", {
+                itemArr: route.params.item,
+              });
+            }}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.videocallIcon}>
+          <Feather name="video" size={30} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.callIcon}>
+          <Ionicons name="call-outline" size={30} color="black" />
+        </TouchableOpacity>
       </View>
       <View style={styles.bottomContainer}>
         <TextInput style={styles.textBox} />
@@ -79,5 +98,23 @@ const styles = StyleSheet.create({
     marginRight: 20,
     borderRadius: 50,
     backgroundColor: "white",
+  },
+  infoIcon: {
+    marginTop: 15,
+    marginRight: 5,
+    position: "absolute",
+    right: 5,
+  },
+  videocallIcon: {
+    marginTop: 15,
+    marginRight: 5,
+    position: "absolute",
+    right: 44,
+  },
+  callIcon: {
+    marginTop: 15,
+    marginRight: 5,
+    position: "absolute",
+    right: 84,
   },
 });

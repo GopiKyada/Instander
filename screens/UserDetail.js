@@ -99,6 +99,7 @@ const UserDetail = ({ route, navigation }) => {
       name: items.user.name,
       userName: items.user.username,
       profileImage: items.user.profile_image.large,
+      item: items,
     });
   }
 
