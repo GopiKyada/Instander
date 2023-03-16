@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
+  ImageBackground,
 } from "react-native";
 import { useEffect, useLayoutEffect, useState } from "react";
 import {
@@ -15,11 +16,17 @@ import {
   FontAwesome,
   Ionicons,
   Entypo,
+  FontAwesome5,
+  Feather,
+  MaterialIcons,
+  Octicons,
 } from "@expo/vector-icons";
 
 const ImageScreen = ({ route, navigation }) => {
   const [image, setImage] = useState([]);
   const [loading, setLoading] = useState();
+
+  const url = "https://www.google.com";
 
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState("medium");
@@ -47,8 +54,13 @@ const ImageScreen = ({ route, navigation }) => {
         description: mydata.alt_description,
         latitude: mydata.location.position.latitude,
         longitude: mydata.location.position.longitude,
+        views: mydata.views,
+        downloads: mydata.downloads,
+        hire: mydata.user.for_hire,
+        location: mydata.user.location,
+        tags: mydata.tags,
       };
-      // console.warn(updatedImages);
+      console.warn(updatedImages);
       setImage(updatedImages);
       setLoading(false);
     } catch (error) {
@@ -90,10 +102,17 @@ const ImageScreen = ({ route, navigation }) => {
             </View>
             <View>
               <Text style={styles.usersNameText}>{image.name}</Text>
-              <Text style={styles.userNameTxt}>@{image.userName}</Text>
+              {/* <Text style={styles.userNameTxt}>@{image.userName}</Text> */}
+              {image.hire == "true" ? (
+                <Text style={styles.noViews}>Not Available for hire</Text>
+              ) : (
+                <Text style={styles.userNameTxt}>
+                  Available for hire
+                  <MaterialIcons name="verified" size={18} />
+                </Text>
+              )}
             </View>
           </View>
-
           <View style={styles.profileContainer2}>
             <AntDesign
               style={styles.upperLikeIcon}
@@ -148,30 +167,81 @@ const ImageScreen = ({ route, navigation }) => {
               </TouchableOpacity>
             </Modal>
           </View>
+          <ImageBackground
+            source={{ uri: image.url }}
+            resizeMode="cover"
+            style={styles.imageBackground}
+            opacity={0.5}
+          >
+            <Image
+              source={{ uri: image.url }}
+              resizeMode="contain"
+              style={styles.image}
+            />
+          </ImageBackground>
+          <View style={styles.viewsDownloadsContainer}>
+            <View>
+              {image.views == 0 ? (
+                <View>
+                  <Text style={styles.viewsDownloadsTitleTxt}>Views</Text>
+                  <Text style={styles.viewsDownloadsTxt}>--</Text>
+                </View>
+              ) : (
+                <View>
+                  <Text style={styles.viewsDownloadsTitleTxt}>Views</Text>
+                  <Text style={styles.viewsDownloadsTxt}>{image.views}</Text>
+                </View>
+              )}
 
-          <View style={styles.imgContainer}>
-            <Image style={styles.img} source={{ uri: image.url }} />
-          </View>
-          <View style={styles.descriptionTextContainer}>
-            <Text style={styles.descriptionTxt}>{image.description}</Text>
-          </View>
-          <View style={styles.likeContainer}>
-            <AntDesign
-              style={styles.likeIcon}
-              name="hearto"
-              size={30}
-              color="black"
-            />
-            <Fontisto name="comment" size={30} color="black" />
-            <FontAwesome
-              style={styles.saveIcon}
-              name="bookmark-o"
-              size={30}
-              color="black"
-            />
+              {image.downloads == 0 ? (
+                <View>
+                  <Text style={styles.viewsDownloadsTitleTxt}>Downloads</Text>
+                  <Text style={styles.viewsDownloadsTxt}>--</Text>
+                </View>
+              ) : (
+                <View>
+                  <Text style={styles.viewsDownloadsTitleTxt}>Downloads</Text>
+                  <Text style={styles.viewsDownloadsTxt}>
+                    {image.downloads}
+                  </Text>
+                </View>
+              )}
+            </View>
+            <View style={{ paddingLeft: 100 }}>
+              <FontAwesome5
+                name="share"
+                size={20}
+                color="#555"
+                style={styles.upperLikeIcon}
+              />
+            </View>
+            <View>
+              <Feather
+                style={styles.upperLikeIcon}
+                name="info"
+                size={22}
+                color="#555"
+              />
+            </View>
+            <View>
+              <Entypo
+                style={styles.upperLikeIcon}
+                name="dots-three-horizontal"
+                size={24}
+                color="#555"
+              />
+            </View>
           </View>
           <View>
-            <Text style={styles.likeTxt}>{image.likes} likes</Text>
+            <View style={styles.locationTxtContainer}>
+              <Octicons
+                name="location"
+                size={18}
+                color="black"
+                style={styles.locationIcon}
+              />
+              <Text style={styles.locationTxt}>{image.location}</Text>
+            </View>
           </View>
         </View>
       )}
@@ -182,6 +252,37 @@ const ImageScreen = ({ route, navigation }) => {
 export default ImageScreen;
 
 const styles = StyleSheet.create({
+  locationIcon: {
+    paddingLeft: 15,
+    paddingTop: 7,
+  },
+  locationTxtContainer: {
+    flexDirection: "row",
+  },
+  locationTxt: {
+    paddingLeft: 8,
+    fontSize: 20,
+  },
+  viewsDownloadsTxt: {
+    fontSize: 15,
+  },
+  viewsDownloadsTitleTxt: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  viewsDownloadsContainer: {
+    paddingHorizontal: 15,
+    paddingVertical: 15,
+    flexDirection: "row",
+  },
+  imageBackground: {
+    width: "100%",
+    aspectRatio: 1, // set the aspect ratio to the image aspect ratio
+  },
+  image: {
+    width: "100%",
+    aspectRatio: 1, // set the aspect ratio to the image aspect ratio
+  },
   overlay: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0)",
@@ -256,14 +357,20 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   imgContainer: {
-    height: 400,
-    width: "100%",
+    // height: 400,
+    // width: "100%",
+    // justifyContent: "center",
+    flex: 1,
+    alignItems: "center",
     justifyContent: "center",
   },
   img: {
-    height: "100%",
+    // height: "100%",
+    // width: "100%",
+    // resizeMode: "contain",
     width: "100%",
-    resizeMode: "contain",
+    height: undefined,
+    aspectRatio: 1,
   },
   profileImgContainer: {
     height: 70,
@@ -289,7 +396,8 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   userNameTxt: {
-    opacity: 0.5,
+    // opacity: 0.5,
+    color: "#0099FF",
     paddingLeft: 20,
   },
   likeContainer: {
