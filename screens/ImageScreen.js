@@ -16,7 +16,6 @@ import {
   Ionicons,
   Entypo,
 } from "@expo/vector-icons";
-import { Menu, MenuDivider, MenuItem } from "react-native-material-menu";
 
 const ImageScreen = ({ route, navigation }) => {
   const [image, setImage] = useState([]);
@@ -24,12 +23,6 @@ const ImageScreen = ({ route, navigation }) => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState("medium");
-
-  // const [visible, setVisible] = useState(false);
-
-  // const hideMenu = () => setVisible(false);
-
-  // const showMenu = () => setVisible(true);
 
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
@@ -155,32 +148,6 @@ const ImageScreen = ({ route, navigation }) => {
               </TouchableOpacity>
             </Modal>
           </View>
-          {/* <Menu
-              visible={visible}
-              style={styles.downloadMenu}
-              anchor={
-                <TouchableOpacity
-                  onPress={showMenu}
-                  style={styles.downloadMenuContainer}
-                >
-                  <Text style={styles.downloadText}>Download</Text>
-                  <Entypo
-                    name="chevron-thin-down"
-                    style={styles.downButton}
-                    size={20}
-                    color="black"
-                  />
-                </TouchableOpacity>
-              }
-              onRequestClose={hideMenu}
-              animationDuration={1}
-            >
-              <MenuItem>Small</MenuItem>
-              <MenuItem>Medium</MenuItem>
-              <MenuItem>Large</MenuItem>
-              <MenuDivider></MenuDivider>
-              <MenuItem>Original Size</MenuItem>
-            </Menu> */}
 
           <View style={styles.imgContainer}>
             <Image style={styles.img} source={{ uri: image.url }} />
