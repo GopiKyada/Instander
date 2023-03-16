@@ -1,6 +1,7 @@
 import {
   ScrollView,
   StyleSheet,
+  Modal,
   Text,
   View,
   Image,
@@ -8,11 +9,33 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useEffect, useLayoutEffect, useState } from "react";
-import { AntDesign, Fontisto, FontAwesome } from "@expo/vector-icons";
+import {
+  AntDesign,
+  Fontisto,
+  FontAwesome,
+  Ionicons,
+  Entypo,
+} from "@expo/vector-icons";
+import { Menu, MenuDivider, MenuItem } from "react-native-material-menu";
 
 const ImageScreen = ({ route, navigation }) => {
   const [image, setImage] = useState([]);
   const [loading, setLoading] = useState();
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("medium");
+
+  // const [visible, setVisible] = useState(false);
+
+  // const hideMenu = () => setVisible(false);
+
+  // const showMenu = () => setVisible(true);
+
+  const handleOptionSelect = (option) => {
+    setSelectedOption(option);
+    setModalVisible(false);
+    // Do something with the selected option, such as triggering a download
+  };
 
   const getUserImage = async () => {
     setLoading(true);
@@ -29,6 +52,8 @@ const ImageScreen = ({ route, navigation }) => {
         userName: mydata.user.username,
         likes: mydata.likes,
         description: mydata.alt_description,
+        latitude: mydata.location.position.latitude,
+        longitude: mydata.location.position.longitude,
       };
       // console.warn(updatedImages);
       setImage(updatedImages);
@@ -75,6 +100,88 @@ const ImageScreen = ({ route, navigation }) => {
               <Text style={styles.userNameTxt}>@{image.userName}</Text>
             </View>
           </View>
+
+          <View style={styles.profileContainer2}>
+            <AntDesign
+              style={styles.upperLikeIcon}
+              name="hearto"
+              size={20}
+              color="#555"
+            />
+            <Ionicons
+              name="ios-add"
+              style={styles.upperAddIcon}
+              size={20}
+              color="#555"
+            />
+            <TouchableOpacity
+              onPress={() => setModalVisible(true)}
+              style={styles.downloadMenuContainer}
+            >
+              <Text style={styles.downloadText}>
+                Download ({selectedOption})
+              </Text>
+              <Entypo
+                name="chevron-thin-down"
+                style={styles.downButton}
+                size={20}
+                color="black"
+              />
+            </TouchableOpacity>
+            <Modal
+              animationType="fade"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => setModalVisible(false)}
+            >
+              <TouchableOpacity
+                style={styles.overlay}
+                onPress={() => setModalVisible(false)}
+              >
+                <View style={styles.modalContainer}>
+                  <Text style={styles.title}>Select download size</Text>
+                  <TouchableOpacity onPress={() => handleOptionSelect("large")}>
+                    <Text style={styles.option}>Large</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => handleOptionSelect("medium")}
+                  >
+                    <Text style={styles.option}>Medium</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => handleOptionSelect("small")}>
+                    <Text style={styles.option}>Small</Text>
+                  </TouchableOpacity>
+                </View>
+              </TouchableOpacity>
+            </Modal>
+          </View>
+          {/* <Menu
+              visible={visible}
+              style={styles.downloadMenu}
+              anchor={
+                <TouchableOpacity
+                  onPress={showMenu}
+                  style={styles.downloadMenuContainer}
+                >
+                  <Text style={styles.downloadText}>Download</Text>
+                  <Entypo
+                    name="chevron-thin-down"
+                    style={styles.downButton}
+                    size={20}
+                    color="black"
+                  />
+                </TouchableOpacity>
+              }
+              onRequestClose={hideMenu}
+              animationDuration={1}
+            >
+              <MenuItem>Small</MenuItem>
+              <MenuItem>Medium</MenuItem>
+              <MenuItem>Large</MenuItem>
+              <MenuDivider></MenuDivider>
+              <MenuItem>Original Size</MenuItem>
+            </Menu> */}
+
           <View style={styles.imgContainer}>
             <Image style={styles.img} source={{ uri: image.url }} />
           </View>
@@ -108,6 +215,79 @@ const ImageScreen = ({ route, navigation }) => {
 export default ImageScreen;
 
 const styles = StyleSheet.create({
+  overlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0)",
+    // justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContainer: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 20,
+    minWidth: "50%",
+    maxWidth: "90%",
+    marginTop: 200,
+    marginLeft: 180,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  option: {
+    fontSize: 16,
+    paddingVertical: 10,
+  },
+  downButton: {
+    paddingTop: 10,
+    paddingHorizontal: 5,
+  },
+  downloadMenuContainer: {
+    flexDirection: "row",
+    borderWidth: 2,
+    borderRadius: 5,
+    borderColor: "#555",
+    marginLeft: 50,
+    // width: 230,
+  },
+  upperLikeIcon: {
+    borderWidth: 2,
+    paddingLeft: 15,
+    paddingRight: 13,
+    paddingTop: 8,
+    paddingBottom: 8,
+    borderRadius: 5,
+    borderColor: "#555",
+    marginLeft: 10,
+  },
+  downloadText: {
+    // borderWidth: 2,
+    borderRightWidth: 2,
+    width: 200,
+    textAlign: "center",
+    fontSize: 20,
+    paddingVertical: 6,
+    paddingHorizontal: 5,
+    // borderRadius: 5,
+    borderColor: "#555",
+  },
+  upperAddIcon: {
+    borderWidth: 2,
+    paddingLeft: 15,
+    paddingRight: 13,
+    paddingTop: 8,
+    paddingBottom: 8,
+    borderRadius: 5,
+    borderColor: "#555",
+    marginLeft: 10,
+  },
+
+  profileContainer2: {
+    flexDirection: "row",
+    backgroundColor: "white",
+    paddingVertical: 10,
+  },
   imgContainer: {
     height: 400,
     width: "100%",
@@ -134,6 +314,7 @@ const styles = StyleSheet.create({
   },
   profileContainer: {
     flexDirection: "row",
+    backgroundColor: "white",
   },
   usersNameText: {
     fontSize: 20,

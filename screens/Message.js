@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { FontAwesome, Feather, Ionicons } from "@expo/vector-icons";
 
+
 function Message({ route, navigation }) {
   return (
     <SafeAreaView style={{ flex: 1 }}>
