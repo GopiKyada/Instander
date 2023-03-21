@@ -115,7 +115,15 @@ const UserList = ({ navigation }) => {
             />
           </View>
           <View style={styles.nameContainer}>
-            <Text style={styles.nameText}>{item.user.name}</Text>
+            <Text
+              style={styles.nameText}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {item.user.name.length > 18
+                ? `${item.user.name.substring(0, 18)}...`
+                : item.user.name}
+            </Text>
             <Text style={styles.usernameText}>@{item.user.username}</Text>
           </View>
         </View>

@@ -10,10 +10,9 @@ import {
   ImageBackground,
 } from "react-native";
 import { useEffect, useLayoutEffect, useState } from "react";
+
 import {
   AntDesign,
-  Fontisto,
-  FontAwesome,
   Ionicons,
   Entypo,
   FontAwesome5,
@@ -21,15 +20,14 @@ import {
   MaterialIcons,
   Octicons,
 } from "@expo/vector-icons";
+import Toast from "react-native-toast-message";
 
 const ImageScreen = ({ route, navigation }) => {
   const [image, setImage] = useState([]);
   const [loading, setLoading] = useState();
-
-  const url = "https://www.google.com";
-
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState("medium");
+  const [isLiked, setIsLiked] = useState(false);
 
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
@@ -60,7 +58,7 @@ const ImageScreen = ({ route, navigation }) => {
         location: mydata.user.location,
         tags: mydata.tags,
       };
-      console.warn(updatedImages);
+      // console.warn(updatedImages);
       setImage(updatedImages);
       setLoading(false);
     } catch (error) {
@@ -77,6 +75,19 @@ const ImageScreen = ({ route, navigation }) => {
       title: image.name,
     });
   });
+
+  const handleLikePress = () => {
+    setIsLiked(!isLiked);
+    Toast.show({
+      type: "success",
+      text1: isLiked ? "Unliked" : "Liked",
+      text2: "Thanks for your feedback!",
+      visibilityTime: 5000,
+      autoHide: true,
+      topOffset: 0,
+      bottomOffset: 0,
+    });
+  };
 
   return (
     <ScrollView>
@@ -114,18 +125,23 @@ const ImageScreen = ({ route, navigation }) => {
             </View>
           </View>
           <View style={styles.profileContainer2}>
-            <AntDesign
-              style={styles.upperLikeIcon}
-              name="hearto"
-              size={20}
-              color="#555"
-            />
-            <Ionicons
-              name="ios-add"
-              style={styles.upperAddIcon}
-              size={20}
-              color="#555"
-            />
+            <TouchableOpacity onPress={handleLikePress}>
+              <AntDesign
+                style={styles.upperLikeIcon}
+                name={isLiked ? "heart" : "hearto"}
+                size={20}
+                color={isLiked ? "red" : "black"}
+              />
+            </TouchableOpacity>
+            <Toast />
+            <TouchableOpacity>
+              <Ionicons
+                name="ios-add"
+                style={styles.upperAddIcon}
+                size={20}
+                color="#555"
+              />
+            </TouchableOpacity>
             <TouchableOpacity
               onPress={() => setModalVisible(true)}
               style={styles.downloadMenuContainer}
@@ -179,6 +195,7 @@ const ImageScreen = ({ route, navigation }) => {
               style={styles.image}
             />
           </ImageBackground>
+
           <View style={styles.viewsDownloadsContainer}>
             <View>
               {image.views == 0 ? (
@@ -207,41 +224,51 @@ const ImageScreen = ({ route, navigation }) => {
                 </View>
               )}
             </View>
-            <View style={{ paddingLeft: 100 }}>
+            <TouchableOpacity style={{ paddingLeft: 100 }}>
               <FontAwesome5
                 name="share"
                 size={20}
                 color="#555"
                 style={styles.upperLikeIcon}
               />
-            </View>
-            <View>
+            </TouchableOpacity>
+            <TouchableOpacity>
               <Feather
                 style={styles.upperLikeIcon}
                 name="info"
                 size={22}
                 color="#555"
               />
-            </View>
-            <View>
+            </TouchableOpacity>
+            <TouchableOpacity>
               <Entypo
                 style={styles.upperLikeIcon}
                 name="dots-three-horizontal"
                 size={24}
                 color="#555"
               />
-            </View>
+            </TouchableOpacity>
           </View>
           <View>
-            <View style={styles.locationTxtContainer}>
-              <Octicons
-                name="location"
-                size={18}
-                color="black"
-                style={styles.locationIcon}
-              />
-              <Text style={styles.locationTxt}>{image.location}</Text>
-            </View>
+            {image.location ? (
+              <View style={styles.locationTxtContainer}>
+                <Octicons
+                  name="location"
+                  size={18}
+                  color="black"
+                  style={styles.locationIcon}
+                />
+                <Text
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                  style={styles.locationTxt}
+                >
+                  {image.location.length > 15
+                    ? `${image.location.substring(0, 15)}...`
+                    : image.location}
+                </Text>
+              </View>
+            ) : null}
           </View>
         </View>
       )}
@@ -355,6 +382,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "white",
     paddingVertical: 10,
+    alignItems: "center",
   },
   imgContainer: {
     // height: 400,

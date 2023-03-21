@@ -7,6 +7,7 @@ import UserList from "./screens/Userlist";
 import UserDetail from "./screens/UserDetail";
 import Message from "./screens/Message";
 import ImageScreen from "./screens/ImageScreen";
+import TruncatedHeader from "./components/OTHER/TruncatedHeader";
 
 const Stack = createNativeStackNavigator();
 
@@ -31,7 +32,9 @@ export default function App({ route }) {
             name="UserDetail"
             component={UserDetail}
             options={({ route }) => ({
-              title: route.params.itemArr.user.name,
+              headerTitle: () => (
+                <TruncatedHeader title={route.params.itemArr.user.name} />
+              ),
               headerTitleStyle: {
                 fontWeight: "bold",
                 fontSize: 25,
@@ -42,9 +45,11 @@ export default function App({ route }) {
           <Stack.Screen
             name="Message"
             component={Message}
-            options={{
-              headerShown: false,
-            }}
+            options={
+              {
+                headerShown: false,
+              }
+            }
           />
           <Stack.Screen name="Image" component={ImageScreen} />
         </Stack.Navigator>

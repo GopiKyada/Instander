@@ -9,11 +9,29 @@ import {
 } from "react-native";
 import { FontAwesome, Feather, Ionicons } from "@expo/vector-icons";
 
-
 function Message({ route, navigation }) {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.usrProfileContainer}>
+        <TouchableOpacity>
+          <Ionicons
+            name="arrow-back"
+            size={24}
+            color="black"
+            style={{
+              paddingTop: 10,
+              paddingBottom: 10,
+              paddingRight: 10,
+              paddingLeft: 10,
+              // borderWidth: 1,
+              borderRadius: 50,
+              marginTop: 10,
+              marginBottom: 10,
+              marginLeft: 10,
+            }}
+            onPress={() => navigation.goBack()}
+          />
+        </TouchableOpacity>
         <View style={styles.usrProfileImageContainer}>
           <Image
             style={styles.usrProfileImage}
@@ -21,7 +39,12 @@ function Message({ route, navigation }) {
           />
         </View>
         <View style={styles.usrnameTxtContainer}>
-          <Text style={styles.usrsnameTxt}>{route.params.name}</Text>
+          {/* <Text style={styles.usrsnameTxt}>{route.params.name}</Text> */}
+          <Text style={styles.usrsnameTxt}>
+            {route.params.name.length > 17
+              ? `${route.params.name.substring(0, 17)}...`
+              : route.params.name}
+          </Text>
           <Text style={styles.usrnameTxt}>@{route.params.userName}</Text>
         </View>
         <TouchableOpacity style={styles.infoIcon}>

@@ -136,9 +136,15 @@ const UserDetail = ({ route, navigation }) => {
           <View style={styles.bioContainer}>
             <Text style={styles.titletxt}>Location</Text>
             <View style={styles.locationTextContainer}>
-              <Text style={styles.locationText}>
+              <Text
+                numberOfLines={1}
+                ellipsizeMode="tail"
+                style={styles.locationText}
+              >
                 <Ionicons name="location" size={20} color="black" />
-                {items.user.location}
+                {items.user.location.length > 20
+                  ? `${items.user.location.substring(0, 20)}...`
+                  : items.user.location}
               </Text>
               <OutlinedUnfillButton children="View on Map" />
             </View>
