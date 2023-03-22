@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
+  ToastAndroid,
   ImageBackground,
 } from "react-native";
 import { useEffect, useLayoutEffect, useState } from "react";
@@ -21,6 +22,8 @@ import {
   Octicons,
 } from "@expo/vector-icons";
 import Toast from "react-native-toast-message";
+import ReportPopup from "../components/OTHER/ReportPopup";
+import GraphModal from "../components/OTHER/GraphModal";
 
 const ImageScreen = ({ route, navigation }) => {
   const [image, setImage] = useState([]);
@@ -28,6 +31,8 @@ const ImageScreen = ({ route, navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState("medium");
   const [isLiked, setIsLiked] = useState(false);
+  const [reportVisible, setReportVisible] = useState(false);
+  const [graphVisible, setGraphVisible] = useState(false);
 
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
@@ -78,15 +83,23 @@ const ImageScreen = ({ route, navigation }) => {
 
   const handleLikePress = () => {
     setIsLiked(!isLiked);
-    Toast.show({
-      type: "success",
-      text1: isLiked ? "Unliked" : "Liked",
-      text2: "Thanks for your feedback!",
-      visibilityTime: 5000,
-      autoHide: true,
-      topOffset: 0,
-      bottomOffset: 0,
-    });
+    ToastAndroid.show(isLiked ? "Disliked !" : "Liked !", ToastAndroid.SHORT);
+  };
+
+  const handleReportPress = () => {
+    setReportVisible(true);
+  };
+
+  const handleReportClose = () => {
+    setReportVisible(false);
+  };
+
+  const handleInfoPress = () => {
+    setGraphVisible(true);
+  };
+
+  const handleGraphClose = () => {
+    setGraphVisible(false);
   };
 
   return (
@@ -117,10 +130,12 @@ const ImageScreen = ({ route, navigation }) => {
               {image.hire == "true" ? (
                 <Text style={styles.noViews}>Not Available for hire</Text>
               ) : (
-                <Text style={styles.userNameTxt}>
-                  Available for hire
-                  <MaterialIcons name="verified" size={18} />
-                </Text>
+                <View style={styles.userNameTxt}>
+                  <Text style={{ color: "#0099FF", paddingRight: 3 }}>
+                    Available for hire
+                  </Text>
+                  <MaterialIcons name="verified" size={18} color="#0099FF" />
+                </View>
               )}
             </View>
           </View>
@@ -133,7 +148,6 @@ const ImageScreen = ({ route, navigation }) => {
                 color={isLiked ? "red" : "black"}
               />
             </TouchableOpacity>
-            <Toast />
             <TouchableOpacity>
               <Ionicons
                 name="ios-add"
@@ -232,7 +246,7 @@ const ImageScreen = ({ route, navigation }) => {
                 style={styles.upperLikeIcon}
               />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleInfoPress}>
               <Feather
                 style={styles.upperLikeIcon}
                 name="info"
@@ -240,7 +254,12 @@ const ImageScreen = ({ route, navigation }) => {
                 color="#555"
               />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <GraphModal
+              visible={graphVisible}
+              onClose={handleGraphClose}
+              username={image.userName}
+            />
+            <TouchableOpacity onPress={handleReportPress}>
               <Entypo
                 style={styles.upperLikeIcon}
                 name="dots-three-horizontal"
@@ -248,6 +267,7 @@ const ImageScreen = ({ route, navigation }) => {
                 color="#555"
               />
             </TouchableOpacity>
+            <ReportPopup visible={reportVisible} onClose={handleReportClose} />
           </View>
           <View>
             {image.location ? (
@@ -427,6 +447,7 @@ const styles = StyleSheet.create({
     // opacity: 0.5,
     color: "#0099FF",
     paddingLeft: 20,
+    flexDirection: "row",
   },
   likeContainer: {
     flexDirection: "row",
