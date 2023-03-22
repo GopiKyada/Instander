@@ -1,43 +1,34 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
 import { VictoryChart, VictoryLine, VictoryTheme } from "victory-native";
 
 const GraphModal = ({ visible, onClose, username }) => {
-  const [myChartData, setMyChartData] = useState();
-  const [isLoaded, setIsLoaded] = useState();
   const [chartValueList, setChartValueList] = useState([]);
 
   const getChartData = async () => {
     try {
-      const response =
-        await fetch(`https://api.unsplash.com/users/${username}/statistics/?quantity=4&client_id=3jA8JqRSjVb891zVslTQsYPqZEI8bZ1AbIQkkgyJxNw
-      `);
+      const response = await fetch(
+        `https://api.unsplash.com/users/${username}/statistics/?quantity=4&client_id=3jA8JqRSjVb891zVslTQsYPqZEI8bZ1AbIQkkgyJxNw`
+      );
       const mydata = await response.json();
-      setMyChartData(mydata.downloads.historical.values);
-      const updatedChartData = myChartData.map((item) => ({
-        date: item.date,
-        value: item.value,
-      }));
+      const updatedChartData = mydata.downloads.historical.values.map(
+        (item) => ({
+          date: item.date,
+          value: item.value,
+        })
+      );
       setChartValueList(updatedChartData);
-      // console.warn(chartValueList);
-      setIsLoaded(false);
-      // console.warn(mydata.downloads.historical.values);
     } catch (error) {
       console.log(error);
     }
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     getChartData();
-  }, [getChartData, username]);
+  }, []);
 
   return (
-    <Modal
-      //   animationType="slide"
-      transparent={true}
-      visible={visible}
-      onRequestClose={onClose}
-    >
+    <Modal transparent={true} visible={visible} onRequestClose={onClose}>
       <TouchableOpacity style={styles.overlay} onPress={onClose} />
       <View style={styles.container}>
         <VictoryChart
