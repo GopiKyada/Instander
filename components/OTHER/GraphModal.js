@@ -1,24 +1,11 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
-import { LineChart } from "react-native-chart-kit";
 import { VictoryChart, VictoryLine, VictoryTheme } from "victory-native";
 
 const GraphModal = ({ visible, onClose, username }) => {
   const [myChartData, setMyChartData] = useState();
   const [isLoaded, setIsLoaded] = useState();
   const [chartValueList, setChartValueList] = useState([]);
-
-  // Example data for the line chart
-  // const chartData = {
-  //   labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-  //   datasets: [
-  //     {
-  //       data: [200, 450, 280, 800, 990, 430],
-  //       color: (opacity = 1) => `rgba(255, 0, 0, ${opacity})`, // Set the color of the line chart
-  //     },
-  //   ],
-  // };
-  // console.warn(myChartData);
 
   const getChartData = async () => {
     try {
@@ -53,19 +40,6 @@ const GraphModal = ({ visible, onClose, username }) => {
     >
       <TouchableOpacity style={styles.overlay} onPress={onClose} />
       <View style={styles.container}>
-        {/* Render the line chart */}
-        {/* <LineChart
-          data={chartData}
-          width={300}
-          height={200}
-          chartConfig={{
-            backgroundColor: "#fff",
-            backgroundGradientFrom: "#fff",
-            backgroundGradientTo: "#fff",
-            decimalPlaces: 0,
-            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-          }}
-        /> */}
         <VictoryChart
           width={300}
           height={200}
