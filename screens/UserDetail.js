@@ -32,7 +32,6 @@ const UserDetail = ({ route, navigation }) => {
   );
   const [portraitStyle, setPortraitStyle] = useState(styles.portraitBtn);
   const [squarishStyle, setSquarishStyle] = useState(styles.squaishBtn);
-  const [modalVisible, setmodalVisible] = useState(false);
 
   const landscapeHandler = () => {
     setorientation("landscape");

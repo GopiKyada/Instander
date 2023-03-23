@@ -67,7 +67,7 @@ function Message({ route, navigation }) {
         </TouchableOpacity>
       </View>
       <View style={styles.bottomContainer}>
-        <TextInput style={styles.textBox} />
+        <TextInput style={styles.textBox} placeholder="Message..." />
         <FontAwesome name="send" size={35} color="grey" />
       </View>
     </SafeAreaView>

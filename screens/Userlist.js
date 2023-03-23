@@ -48,14 +48,16 @@ const UserList = ({ navigation }) => {
 
   const getUserData = () => {
     setIsLoading(true);
-    axios
-      .get(
-        `https://api.unsplash.com/photos/?page=${currentPage}&order_by=${orderBy}&client_id=3jA8JqRSjVb891zVslTQsYPqZEI8bZ1AbIQkkgyJxNw`
-      )
-      .then((res) => {
-        setUsers([...users, ...res.data]);
-        setIsLoading(false);
-      });
+    setTimeout(() => {
+      axios
+        .get(
+          `https://api.unsplash.com/photos/?page=${currentPage}&order_by=${orderBy}&client_id=3jA8JqRSjVb891zVslTQsYPqZEI8bZ1AbIQkkgyJxNw`
+        )
+        .then((res) => {
+          setUsers([...users, ...res.data]);
+          setIsLoading(false);
+        });
+    }, 1000); // add a delay of 1 second (1000 milliseconds)
   };
 
   useEffect(() => {
