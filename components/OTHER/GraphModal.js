@@ -6,6 +6,7 @@ import {
   VictoryTheme,
   VictoryAxis,
   VictoryBar,
+  VictoryLabel,
 } from "victory-native";
 
 const GraphModal = ({ visible, onClose, username }) => {
@@ -41,7 +42,7 @@ const GraphModal = ({ visible, onClose, username }) => {
   const getChartData = async () => {
     try {
       const response = await fetch(
-        `https://api.unsplash.com/users/${username}/statistics/?quantity=10&client_id=3jA8JqRSjVb891zVslTQsYPqZEI8bZ1AbIQkkgyJxNw`
+        `https://api.unsplash.com/users/${username}/statistics/?quantity=5&client_id=3jA8JqRSjVb891zVslTQsYPqZEI8bZ1AbIQkkgyJxNw`
       );
       const mydata = await response.json();
       const selectedChartData = mapChartData(mydata, selectedValue);
@@ -74,18 +75,33 @@ const GraphModal = ({ visible, onClose, username }) => {
         <Text style={{ fontWeight: "bold", fontSize: 20, paddingTop: 10 }}>
           {text}
         </Text>
-        <VictoryChart width={350} height={250} theme={VictoryTheme.material}>
-          <VictoryAxis
-            tickFormat={() => ""}
+        <VictoryChart width={300} height={250} theme={VictoryTheme.material}>
+          {/* <VictoryAxis
+            // tickFormat={() => ""}
             style={{
               // axis: { stroke: "none" },
-              ticks: { stroke: "none" },
-              tickLabels: { fill: "none" },
+              // ticks: { stroke: "none" },
+              // tickLabels: { fill: "none" },
               grid: { stroke: "transparent" },
             }}
+          /> */}
+          {/* <VictoryAxis
+            style={{
+              tickLabels: { angle: 15, textAnchor: "start" },
+            }}
+          /> */}
+          <VictoryAxis
+            dependentAxis
+            tickLabelComponent={<VictoryLabel dx={8} />}
           />
-          <VictoryLine data={chartValueList} x="date" y="value" />
-          {/* <VictoryBar data={chartValueList} x="date" y="value" /> */}
+          <VictoryAxis
+            style={{
+              tickLabels: { angle: -15, textAnchor: "start" },
+            }}
+            tickLabelComponent={<VictoryLabel dy={1} dx={-53} />}
+          />
+          {/* <VictoryLine data={chartValueList} x="date" y="value" /> */}
+          <VictoryBar data={chartValueList} x="date" y="value" />
         </VictoryChart>
         <TouchableOpacity onPress={onClose}>
           <Text style={styles.close}>Close</Text>

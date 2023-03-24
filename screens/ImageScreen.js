@@ -9,8 +9,11 @@ import {
   ActivityIndicator,
   ToastAndroid,
   ImageBackground,
+  Share,
+  Linking,
 } from "react-native";
 import { useEffect, useLayoutEffect, useState } from "react";
+// import MapView, { Marker } from "react-native-maps";
 
 import {
   AntDesign,
@@ -23,6 +26,9 @@ import {
 } from "@expo/vector-icons";
 import ReportPopup from "../components/OTHER/ReportPopup";
 import GraphModal from "../components/OTHER/GraphModal";
+import OutlinedButton from "../components/UI/OutlinedButton";
+// import ShareImage from "../components/OTHER/ShareImage";
+// import Map from "../components/OTHER/Map";
 
 const ImageScreen = ({ route, navigation }) => {
   const [image, setImage] = useState([]);
@@ -99,6 +105,32 @@ const ImageScreen = ({ route, navigation }) => {
 
   const handleGraphClose = () => {
     setGraphVisible(false);
+  };
+
+  const onShare = async () => {
+    try {
+      const imageUrl =
+        "https://upload.wikimedia.org/wikipedia/commons/0/0c/Cow_female_black_white.jpg";
+      const result = await Share.share({
+        message: "Hey, check out this awesome content!",
+        url: "https://upload.wikimedia.org/wikipedia/commons/0/0c/Cow_female_black_white.jpg",
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+  const imageUrl = image.url;
+  const openImageUrl = () => {
+    Linking.openURL(imageUrl);
   };
 
   return (
@@ -208,6 +240,12 @@ const ImageScreen = ({ route, navigation }) => {
               style={styles.image}
             />
           </ImageBackground>
+          <View>
+            <OutlinedButton
+              children="View Image in Browser"
+              onpress={openImageUrl}
+            />
+          </View>
 
           <View style={styles.viewsDownloadsContainer}>
             <View>
@@ -243,6 +281,7 @@ const ImageScreen = ({ route, navigation }) => {
                 size={20}
                 color="#555"
                 style={styles.upperLikeIcon}
+                onPress={onShare}
               />
             </TouchableOpacity>
             <TouchableOpacity onPress={handleInfoPress}>
@@ -288,6 +327,10 @@ const ImageScreen = ({ route, navigation }) => {
                 </Text>
               </View>
             ) : null}
+          </View>
+          <View>
+            {/* <Map lat={image.latitude} lng={image.longitude} /> */}
+            {/* <ShareImage image={image.url} /> */}
           </View>
         </View>
       )}
