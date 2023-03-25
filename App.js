@@ -45,11 +45,9 @@ export default function App({ route }) {
           <Stack.Screen
             name="Message"
             component={Message}
-            options={
-              {
-                headerShown: false,
-              }
-            }
+            options={{
+              headerShown: false,
+            }}
           />
           <Stack.Screen name="Image" component={ImageScreen} />
         </Stack.Navigator>

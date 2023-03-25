@@ -57,6 +57,10 @@ const GraphModal = ({ visible, onClose, username }) => {
     getChartData();
   }, [selectedValue]);
 
+  const formatLabel = (value) => {
+    return `${value / 1000}k`;
+  };
+
   return (
     <Modal transparent={true} visible={visible} onRequestClose={onClose}>
       <TouchableOpacity style={styles.overlay} onPress={onClose} />
@@ -92,16 +96,33 @@ const GraphModal = ({ visible, onClose, username }) => {
           /> */}
           <VictoryAxis
             dependentAxis
+            tickFormat={formatLabel}
+            style={{
+              axis: { stroke: "none" },
+              ticks: { stroke: "none" },
+              tickLabels: { fill: "none" },
+              grid: { stroke: "transparent" },
+            }}
             tickLabelComponent={<VictoryLabel dx={8} />}
           />
           <VictoryAxis
             style={{
               tickLabels: { angle: -15, textAnchor: "start" },
+              // axis: { stroke: "none" },
+              ticks: { stroke: "none" },
+              // tickLabels: { fill: "none" },
+              grid: { stroke: "transparent" },
             }}
-            tickLabelComponent={<VictoryLabel dy={1} dx={-53} />}
+            tickLabelComponent={<VictoryLabel dy={-5} dx={-53} />}
           />
           {/* <VictoryLine data={chartValueList} x="date" y="value" /> */}
-          <VictoryBar data={chartValueList} x="date" y="value" />
+          <VictoryBar
+            data={chartValueList}
+            x="date"
+            y="value"
+            labels={({ datum }) => formatLabel(datum.value)}
+            labelComponent={<VictoryLabel dy={-1} />}
+          />
         </VictoryChart>
         <TouchableOpacity onPress={onClose}>
           <Text style={styles.close}>Close</Text>

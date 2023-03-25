@@ -26,7 +26,6 @@ import * as Sharing from "expo-sharing";
 
 import ReportPopup from "../components/OTHER/ReportPopup";
 import GraphModal from "../components/OTHER/GraphModal";
-// import ShareImage from "../components/OTHER/ShareImage";
 // import Map from "../components/OTHER/Map";
 
 const ImageScreen = ({ route, navigation }) => {
@@ -170,14 +169,6 @@ const ImageScreen = ({ route, navigation }) => {
                 color={isLiked ? "red" : "black"}
               />
             </TouchableOpacity>
-            {/* <TouchableOpacity>
-              <Ionicons
-                name="ios-add"
-                style={styles.upperAddIcon}
-                size={20}
-                color="#555"
-              />
-            </TouchableOpacity> */}
             <TouchableOpacity
               onPress={() => setModalVisible(true)}
               style={styles.downloadMenuContainer}
@@ -326,8 +317,6 @@ const ImageScreen = ({ route, navigation }) => {
             ) : null}
           </View>
           <View>
-            {/* <Map lat={image.latitude} lng={image.longitude} /> */}
-            {/* <ShareImage image={image.url} /> */}
           </View>
         </View>
       )}
