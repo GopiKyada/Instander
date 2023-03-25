@@ -9,24 +9,23 @@ import {
   ActivityIndicator,
   ToastAndroid,
   ImageBackground,
-  Share,
   Linking,
 } from "react-native";
 import { useEffect, useLayoutEffect, useState } from "react";
-// import MapView, { Marker } from "react-native-maps";
 
 import {
   AntDesign,
-  Ionicons,
   Entypo,
   FontAwesome5,
   Feather,
   MaterialIcons,
   Octicons,
 } from "@expo/vector-icons";
+import * as FileSystem from "expo-file-system";
+import * as Sharing from "expo-sharing";
+
 import ReportPopup from "../components/OTHER/ReportPopup";
 import GraphModal from "../components/OTHER/GraphModal";
-import OutlinedButton from "../components/UI/OutlinedButton";
 // import ShareImage from "../components/OTHER/ShareImage";
 // import Map from "../components/OTHER/Map";
 
@@ -109,25 +108,17 @@ const ImageScreen = ({ route, navigation }) => {
 
   const onShare = async () => {
     try {
-      const imageUrl =
-        "https://upload.wikimedia.org/wikipedia/commons/0/0c/Cow_female_black_white.jpg";
-      const result = await Share.share({
-        message: "Hey, check out this awesome content!",
-        url: "https://upload.wikimedia.org/wikipedia/commons/0/0c/Cow_female_black_white.jpg",
-      });
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
-        }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
-      }
+      const { uri: localUri } = await FileSystem.downloadAsync(
+        image.url,
+        FileSystem.documentDirectory + "image.jpg"
+      );
+
+      await Sharing.shareAsync(localUri);
     } catch (error) {
       alert(error.message);
     }
   };
+
   const imageUrl = image.url;
   const openImageUrl = () => {
     Linking.openURL(imageUrl);
@@ -179,14 +170,14 @@ const ImageScreen = ({ route, navigation }) => {
                 color={isLiked ? "red" : "black"}
               />
             </TouchableOpacity>
-            <TouchableOpacity>
+            {/* <TouchableOpacity>
               <Ionicons
                 name="ios-add"
                 style={styles.upperAddIcon}
                 size={20}
                 color="#555"
               />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               onPress={() => setModalVisible(true)}
               style={styles.downloadMenuContainer}
@@ -240,12 +231,18 @@ const ImageScreen = ({ route, navigation }) => {
               style={styles.image}
             />
           </ImageBackground>
-          <View>
-            <OutlinedButton
-              children="View Image in Browser"
-              onpress={openImageUrl}
+          <TouchableOpacity
+            onPress={openImageUrl}
+            style={styles.ViewinBrowserContainer}
+          >
+            <Text style={styles.ViewinBrowsertxt}>View In Browser</Text>
+            <FontAwesome5
+              name="firefox-browser"
+              size={20}
+              color="#0099FF"
+              style={{ paddingLeft: 5 }}
             />
-          </View>
+          </TouchableOpacity>
 
           <View style={styles.viewsDownloadsContainer}>
             <View>
@@ -405,7 +402,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 5,
     borderColor: "#555",
-    marginLeft: 50,
+    marginLeft: 110,
     // width: 230,
   },
   upperLikeIcon: {
@@ -530,5 +527,21 @@ const styles = StyleSheet.create({
     backgroundColor: "#555",
     padding: 20,
     borderRadius: 10,
+  },
+  ViewinBrowsertxt: {
+    fontSize: 15,
+    color: "#0099FF",
+    paddingLeft: 100,
+  },
+  ViewinBrowserContainer: {
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    borderWidth: 2,
+    borderColor: "#0099FF",
+    borderRadius: 50,
+    alignItems: "center",
+    marginHorizontal: 30,
+    marginTop: 10,
+    flexDirection: "row",
   },
 });

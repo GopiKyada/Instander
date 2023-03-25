@@ -8,7 +8,6 @@ import {
   Linking,
   SafeAreaView,
   TouchableOpacity,
-  Modal,
 } from "react-native";
 
 import {
