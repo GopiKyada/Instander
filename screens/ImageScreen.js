@@ -26,7 +26,7 @@ import * as Sharing from "expo-sharing";
 
 import ReportPopup from "../components/OTHER/ReportPopup";
 import GraphModal from "../components/OTHER/GraphModal";
-// import Map from "../components/OTHER/Map";
+import Map from "../components/OTHER/Map";
 
 const ImageScreen = ({ route, navigation }) => {
   const [image, setImage] = useState([]);
@@ -316,8 +316,11 @@ const ImageScreen = ({ route, navigation }) => {
               </View>
             ) : null}
           </View>
-          <View>
-          </View>
+          {image.latitude ? (
+            <View>
+              <Map lat={image.latitude} lng={image.longitude} />
+            </View>
+          ) : null}
         </View>
       )}
     </ScrollView>

@@ -11,22 +11,22 @@ const Map = ({ lat, lng }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <MapView style={styles.map} initialRegion={initialRegion}>
-        <Marker coordinate={initialRegion} />
-      </MapView>
-    </View>
+    <MapView style={styles.map} region={initialRegion} >
+      <Marker coordinate={initialRegion} />
+    </MapView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    height: 300,
-    width: 200,
-  },
   map: {
-    height: "100%",
-    width: "100%",
+    // height: "100%",
+    // width: "100%",
+    flex: 1,
+    width: "95%",
+    height: 200,
+    marginVertical: 20,
+    marginHorizontal: 10,
+    borderRadius: 10,
   },
 });
 

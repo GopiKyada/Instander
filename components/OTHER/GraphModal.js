@@ -15,7 +15,7 @@ const GraphModal = ({ visible, onClose, username }) => {
   const [downloadsBtnStyle, setDownloadsBtnStyle] = useState(
     styles.downloadsTab
   );
-  const [text, setTxt] = useState("Views");
+  const [text, setTxt] = useState("Views(Latest Update)");
   const [selectedValue, setSelectedValue] = useState("views");
 
   const mapChartData = (data, value) => {
@@ -28,21 +28,21 @@ const GraphModal = ({ visible, onClose, username }) => {
   const viewsTabHandler = () => {
     setViewBtnStyle(styles.viewActiveTab);
     setDownloadsBtnStyle(styles.downloadsTab);
-    setTxt("Views");
+    setTxt("Views(Latest Update)");
     setSelectedValue("views");
   };
 
   const downloadsTabHandler = () => {
     setDownloadsBtnStyle(styles.downloadsActiveTab);
     setViewBtnStyle(styles.viewTab);
-    setTxt("Downloads");
+    setTxt("Downloads(Latest Update)");
     setSelectedValue("downloads");
   };
 
   const getChartData = async () => {
     try {
       const response = await fetch(
-        `https://api.unsplash.com/users/${username}/statistics/?quantity=5&client_id=3jA8JqRSjVb891zVslTQsYPqZEI8bZ1AbIQkkgyJxNw`
+        `https://api.unsplash.com/users/${username}/statistics/?quantity=4&client_id=3jA8JqRSjVb891zVslTQsYPqZEI8bZ1AbIQkkgyJxNw`
       );
       const mydata = await response.json();
       const selectedChartData = mapChartData(mydata, selectedValue);

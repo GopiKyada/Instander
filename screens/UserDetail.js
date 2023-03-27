@@ -144,7 +144,7 @@ const UserDetail = ({ route, navigation }) => {
                   ? `${items.user.location.substring(0, 20)}...`
                   : items.user.location}
               </Text>
-              <OutlinedUnfillButton children="View on Map" />
+              {/* <OutlinedUnfillButton children="View on Map" /> */}
             </View>
           </View>
         ) : null}
