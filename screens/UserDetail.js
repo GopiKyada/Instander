@@ -17,10 +17,16 @@ import {
   AntDesign,
   FontAwesome5,
   MaterialIcons,
+  EvilIcons,
 } from "@expo/vector-icons";
 
 import OutlinedButton from "../components/UI/OutlinedButton";
 import OutlinedUnfillButton from "../components/UI/OutlinedUnfillButton";
+import { Colors } from "../constants/colors";
+
+const backgroundColor = Colors.blue;
+
+const color = Colors.white;
 
 const UserDetail = ({ route, navigation }) => {
   const [imageList, setImageList] = useState([]);
@@ -83,7 +89,8 @@ const UserDetail = ({ route, navigation }) => {
           <FontAwesome5
             name="facebook-messenger"
             size={30}
-            color="black"
+            color={Colors.blue}
+            // style={{ backgroundColor: "white" }}
             onPress={messageSendHandler}
           />
         );
@@ -139,7 +146,7 @@ const UserDetail = ({ route, navigation }) => {
                 ellipsizeMode="tail"
                 style={styles.locationText}
               >
-                <Ionicons name="location" size={20} color="black" />
+                <EvilIcons name="location" size={25} color={Colors.white} />
                 {items.user.location.length > 20
                   ? `${items.user.location.substring(0, 20)}...`
                   : items.user.location}
@@ -158,7 +165,7 @@ const UserDetail = ({ route, navigation }) => {
               <Entypo
                 name="instagram"
                 size={20}
-                color="black"
+                color={Colors.white}
                 style={styles.icon}
               />
               <Text style={styles.socialmediaText}>
@@ -173,7 +180,7 @@ const UserDetail = ({ route, navigation }) => {
               <MaterialCommunityIcons
                 name="web"
                 size={20}
-                color="black"
+                color={Colors.white}
                 style={styles.icon}
               />
               <Text
@@ -191,7 +198,7 @@ const UserDetail = ({ route, navigation }) => {
               <AntDesign
                 name="twitter"
                 size={20}
-                color="black"
+                color={Colors.white}
                 style={styles.icon}
               />
               <Text style={styles.socialmediaText}>
@@ -206,7 +213,7 @@ const UserDetail = ({ route, navigation }) => {
               <Entypo
                 name="paypal"
                 size={20}
-                color="black"
+                color={Colors.white}
                 style={styles.icon}
               />
               <Text style={styles.socialmediaText}>
@@ -220,7 +227,7 @@ const UserDetail = ({ route, navigation }) => {
             flexDirection: "row",
             marginBottom: 5,
             borderWidth: 3,
-            borderColor: "white",
+            borderColor: Colors.blue,
             borderRadius: 5,
           }}
         >
@@ -241,7 +248,7 @@ const UserDetail = ({ route, navigation }) => {
               style={styles.nullImgIcon}
               name="image-not-supported"
               size={70}
-              color="black"
+              color={Colors.white}
             />
             <Text style={styles.nullImgTxt}>No Images ...</Text>
           </View>
@@ -271,39 +278,11 @@ const UserDetail = ({ route, navigation }) => {
 export default UserDetail;
 
 const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
-  modalView: {
-    height: 200,
-    width: 200,
-    // margin: 20,
-    backgroundColor: "white",
-    borderRadius: 150,
-    // padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  modalImg: {
-    height: "100%",
-    width: "100%",
-    resizeMode: "cover",
-    borderRadius: 150,
-  },
   nullImgTxt: {
     fontSize: 20,
     paddingLeft: 130,
     opacity: 0.5,
+    color: Colors.white,
   },
   nullImgTxtContainer: {
     marginVertical: 100,
@@ -356,15 +335,17 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     textAlign: "center",
     paddingBottom: 5,
+    color,
   },
   imptxt: {
     fontSize: 18,
     textAlign: "center",
+    color,
   },
   bioContainer: {
     marginBottom: 20,
     justifyContent: "center",
-    backgroundColor: "white",
+    backgroundColor,
     paddingBottom: 10,
     borderRadius: 10,
     shadowOpacity: 1,
@@ -372,7 +353,7 @@ const styles = StyleSheet.create({
   },
   socialmediaContainer: {
     marginBottom: 10,
-    backgroundColor: "white",
+    backgroundColor,
     borderRadius: 10,
     shadowOpacity: 1,
     paddingTop: 10,
@@ -396,20 +377,24 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
     marginRight: 8,
+    color: Colors.white,
   },
   bioText: {
     fontSize: 15,
     paddingHorizontal: 20,
     paddingBottom: 15,
+    color,
   },
   text: {
     fontSize: 15,
     paddingHorizontal: 20,
+    color,
   },
   locationText: {
     fontSize: 18,
     paddingLeft: 20,
     paddingBottom: 10,
+    color,
   },
   likeContainer: {
     width: 170,
@@ -417,7 +402,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginRight: 10,
     height: 100,
-    backgroundColor: "white",
+    backgroundColor,
     borderRadius: 10,
     shadowOpacity: 1,
   },
@@ -426,7 +411,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     height: 100,
-    backgroundColor: "white",
+    backgroundColor,
     borderRadius: 10,
     shadowOpacity: 1,
   },
@@ -434,11 +419,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
     paddingBottom: 10,
     paddingLeft: 10,
+    color,
   },
   linkText: {
     fontSize: 15,
     paddingBottom: 10,
-    paddingLeft: 10,
+    paddingHorizontal: 10,
     color: "blue",
     textDecorationLine: "underline",
   },
@@ -471,7 +457,7 @@ const styles = StyleSheet.create({
   },
   landscapeBtn: {
     borderColor: "white",
-    backgroundColor: "white",
+    backgroundColor: Colors.black,
     width: "33.34%",
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5,
@@ -479,13 +465,13 @@ const styles = StyleSheet.create({
   },
   portraitBtn: {
     borderColor: "white",
-    backgroundColor: "white",
+    backgroundColor: Colors.black,
     width: "33.33%",
     paddingVertical: 10,
   },
   squaishBtn: {
     borderColor: "white",
-    backgroundColor: "white",
+    backgroundColor: Colors.black,
     width: "33.33%",
     borderTopRightRadius: 5,
     borderBottomRightRadius: 5,
@@ -496,23 +482,24 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5,
     paddingVertical: 10,
-    backgroundColor: "pink",
+    backgroundColor: Colors.blue,
   },
   portraitBtnActive: {
     width: "33.33%",
     paddingVertical: 10,
-    backgroundColor: "pink",
+    backgroundColor: Colors.blue,
   },
   squarishBtnActive: {
     width: "33.33%",
     borderTopRightRadius: 5,
     borderBottomRightRadius: 5,
     paddingVertical: 10,
-    backgroundColor: "pink",
+    backgroundColor: Colors.blue,
   },
   lpstxt: {
     fontSize: 20,
     textAlign: "center",
     fontWeight: "bold",
+    color,
   },
 });

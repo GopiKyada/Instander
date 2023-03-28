@@ -14,5 +14,6 @@ const styles = StyleSheet.create({
   headerTitleStyle: {
     fontWeight: "bold",
     fontSize: 25,
+    color: "white",
   },
 });

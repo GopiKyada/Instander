@@ -8,6 +8,7 @@ import {
   VictoryBar,
   VictoryLabel,
 } from "victory-native";
+import { Colors } from "../../constants/colors";
 
 const GraphModal = ({ visible, onClose, username }) => {
   const [chartValueList, setChartValueList] = useState([]);
@@ -76,11 +77,19 @@ const GraphModal = ({ visible, onClose, username }) => {
             <Text style={styles.tabTxt}>Downloads</Text>
           </TouchableOpacity>
         </View>
-        <Text style={{ fontWeight: "bold", fontSize: 20, paddingTop: 10 }}>
+        <Text
+          style={{
+            fontWeight: "bold",
+            fontSize: 20,
+            paddingTop: 10,
+            color: Colors.white,
+          }}
+        >
           {text}
         </Text>
-        <VictoryChart width={300} height={250} theme={VictoryTheme.material}>
-          {/* <VictoryAxis
+        <View>
+          <VictoryChart width={300} height={250} theme={VictoryTheme.material}>
+            {/* <VictoryAxis
             // tickFormat={() => ""}
             style={{
               // axis: { stroke: "none" },
@@ -89,41 +98,50 @@ const GraphModal = ({ visible, onClose, username }) => {
               grid: { stroke: "transparent" },
             }}
           /> */}
-          {/* <VictoryAxis
+            {/* <VictoryAxis
             style={{
               tickLabels: { angle: 15, textAnchor: "start" },
             }}
           /> */}
-          <VictoryAxis
-            dependentAxis
-            tickFormat={formatLabel}
-            style={{
-              axis: { stroke: "none" },
-              ticks: { stroke: "none" },
-              tickLabels: { fill: "none" },
-              grid: { stroke: "transparent" },
-            }}
-            tickLabelComponent={<VictoryLabel dx={8} />}
-          />
-          <VictoryAxis
-            style={{
-              tickLabels: { angle: -15, textAnchor: "start" },
-              // axis: { stroke: "none" },
-              ticks: { stroke: "none" },
-              // tickLabels: { fill: "none" },
-              grid: { stroke: "transparent" },
-            }}
-            tickLabelComponent={<VictoryLabel dy={-5} dx={-53} />}
-          />
-          {/* <VictoryLine data={chartValueList} x="date" y="value" /> */}
-          <VictoryBar
-            data={chartValueList}
-            x="date"
-            y="value"
-            labels={({ datum }) => formatLabel(datum.value)}
-            labelComponent={<VictoryLabel dy={-1} />}
-          />
-        </VictoryChart>
+            <VictoryAxis
+              dependentAxis
+              tickFormat={formatLabel}
+              style={{
+                axis: { stroke: "none" },
+                ticks: { stroke: "none" },
+                tickLabels: { fill: "none" },
+                grid: { stroke: "transparent" },
+              }}
+              tickLabelComponent={<VictoryLabel dx={8} />}
+            />
+            <VictoryAxis
+              style={{
+                tickLabels: {
+                  angle: -15,
+                  textAnchor: "start",
+                  fill: "#FFFFFF",
+                },
+                // axis: { stroke: "none" },
+                ticks: { stroke: "none" },
+                // tickLabels: { fill: "none" },
+                grid: { stroke: "transparent" },
+                // axis: { stroke: '#FFFFFF' },
+                // axisLabel: { fill: '#FFFFFF' },
+                // tickLabels: { fill: "#FFFFFF" },
+              }}
+              tickLabelComponent={<VictoryLabel dy={-5} dx={-53} />}
+            />
+            {/* <VictoryLine data={chartValueList} x="date" y="value" /> */}
+            <VictoryBar
+              data={chartValueList}
+              x="date"
+              y="value"
+              labels={({ datum }) => formatLabel(datum.value)}
+              labelComponent={<VictoryLabel dy={-1} />}
+              style={{ data: { fill: "#FFFFFF" } }}
+            />
+          </VictoryChart>
+        </View>
         <TouchableOpacity onPress={onClose}>
           <Text style={styles.close}>Close</Text>
         </TouchableOpacity>
@@ -144,7 +162,7 @@ const styles = StyleSheet.create({
     top: "45%",
     left: "42%",
     transform: [{ translateX: -160 }, { translateY: -130 }],
-    backgroundColor: "#fff",
+    backgroundColor: Colors.black,
     padding: 20,
     borderRadius: 10,
     alignItems: "center",
@@ -169,18 +187,19 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
     fontWeight: "bold",
+    color: Colors.white,
   },
   viewTab: {
-    borderColor: "white",
-    backgroundColor: "white",
+    borderColor: Colors.blue,
+    backgroundColor: Colors.black,
     width: "45%",
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5,
     paddingVertical: 10,
   },
   downloadsTab: {
-    borderColor: "white",
-    backgroundColor: "white",
+    borderColor: Colors.blue,
+    backgroundColor: Colors.black,
     width: "45%",
     borderTopRightRadius: 5,
     borderBottomRightRadius: 5,
@@ -191,13 +210,13 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5,
     paddingVertical: 10,
-    backgroundColor: "pink",
+    backgroundColor: Colors.blue,
   },
   downloadsActiveTab: {
     width: "45%",
     borderTopRightRadius: 5,
     borderBottomRightRadius: 5,
     paddingVertical: 10,
-    backgroundColor: "pink",
+    backgroundColor: Colors.blue,
   },
 });

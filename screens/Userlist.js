@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 import { Menu, MenuItem } from "react-native-material-menu";
 import { AntDesign } from "@expo/vector-icons";
+import { Colors } from "../constants/colors";
 
 const UserList = ({ navigation }) => {
   const [users, setUsers] = useState([]);
@@ -82,16 +83,34 @@ const UserList = ({ navigation }) => {
                   <AntDesign
                     name="bars"
                     size={24}
-                    color="black"
+                    color={Colors.white}
                     onPress={showMenu}
                   />
                 </TouchableOpacity>
               }
               onRequestClose={hideMenu}
             >
-              <MenuItem onPress={latestMenuHandler}>latest</MenuItem>
-              <MenuItem onPress={oldestMenuHandler}>oldest</MenuItem>
-              <MenuItem onPress={popularMenuHandler}>popular</MenuItem>
+              <MenuItem
+                style={styles.menuItem}
+                textStyle={styles.menuItemTxt}
+                onPress={latestMenuHandler}
+              >
+                latest
+              </MenuItem>
+              <MenuItem
+                style={styles.menuItem}
+                textStyle={styles.menuItemTxt}
+                onPress={oldestMenuHandler}
+              >
+                oldest
+              </MenuItem>
+              <MenuItem
+                style={styles.menuItem}
+                textStyle={styles.menuItemTxt}
+                onPress={popularMenuHandler}
+              >
+                popular
+              </MenuItem>
             </Menu>
           </View>
         );
@@ -171,7 +190,7 @@ const styles = StyleSheet.create({
     width: "95%",
     paddingBottom: 10,
     flexDirection: "row",
-    backgroundColor: "white",
+    backgroundColor: Colors.blue,
     marginBottom: 10,
     marginHorizontal: 10,
     borderRadius: 10,
@@ -195,13 +214,13 @@ const styles = StyleSheet.create({
     margin: 15,
   },
   nameText: {
-    color: "black",
+    color: Colors.white,
     fontSize: 24,
     fontWeight: "bold",
     paddingBottom: 5,
   },
   usernameText: {
-    color: "black",
+    color: Colors.white,
     fontSize: 15,
   },
   button: {
@@ -213,5 +232,11 @@ const styles = StyleSheet.create({
   loader: {
     marginVertical: 8,
     alignItems: "center",
+  },
+  menuItem: {
+    backgroundColor: Colors.black,
+  },
+  menuItemTxt: {
+    color: Colors.white,
   },
 });

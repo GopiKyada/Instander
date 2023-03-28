@@ -12,7 +12,6 @@ import {
   Linking,
 } from "react-native";
 import { useEffect, useLayoutEffect, useState } from "react";
-
 import {
   AntDesign,
   Entypo,
@@ -27,6 +26,7 @@ import * as Sharing from "expo-sharing";
 import ReportPopup from "../components/OTHER/ReportPopup";
 import GraphModal from "../components/OTHER/GraphModal";
 import Map from "../components/OTHER/Map";
+import { Colors } from "../constants/colors";
 
 const ImageScreen = ({ route, navigation }) => {
   const [image, setImage] = useState([]);
@@ -37,11 +37,11 @@ const ImageScreen = ({ route, navigation }) => {
   const [reportVisible, setReportVisible] = useState(false);
   const [graphVisible, setGraphVisible] = useState(false);
 
-  const handleOptionSelect = (option) => {
-    setSelectedOption(option);
-    setModalVisible(false);
-    // Do something with the selected option, such as triggering a download
-  };
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: image.name,
+    });
+  });
 
   const getUserImage = async () => {
     setLoading(true);
@@ -78,11 +78,11 @@ const ImageScreen = ({ route, navigation }) => {
     getUserImage();
   }, []);
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      title: image.name,
-    });
-  });
+  const handleOptionSelect = (option) => {
+    setSelectedOption(option);
+    setModalVisible(false);
+    // Do something with the selected option, such as triggering a download
+  };
 
   const handleLikePress = () => {
     setIsLiked(!isLiked);
@@ -118,9 +118,8 @@ const ImageScreen = ({ route, navigation }) => {
     }
   };
 
-  const imageUrl = image.url;
   const openImageUrl = () => {
-    Linking.openURL(imageUrl);
+    Linking.openURL(image.url);
   };
 
   return (
@@ -166,7 +165,7 @@ const ImageScreen = ({ route, navigation }) => {
                 style={styles.upperLikeIcon}
                 name={isLiked ? "heart" : "hearto"}
                 size={20}
-                color={isLiked ? "red" : "black"}
+                color={isLiked ? "red" : Colors.white}
               />
             </TouchableOpacity>
             <TouchableOpacity
@@ -180,7 +179,7 @@ const ImageScreen = ({ route, navigation }) => {
                 name="chevron-thin-down"
                 style={styles.downButton}
                 size={20}
-                color="black"
+                color={Colors.white}
               />
             </TouchableOpacity>
             <Modal
@@ -267,7 +266,7 @@ const ImageScreen = ({ route, navigation }) => {
               <FontAwesome5
                 name="share"
                 size={20}
-                color="#555"
+                color={Colors.white}
                 style={styles.upperLikeIcon}
                 onPress={onShare}
               />
@@ -277,7 +276,7 @@ const ImageScreen = ({ route, navigation }) => {
                 style={styles.upperLikeIcon}
                 name="info"
                 size={22}
-                color="#555"
+                color={Colors.white}
               />
             </TouchableOpacity>
             <GraphModal
@@ -290,7 +289,7 @@ const ImageScreen = ({ route, navigation }) => {
                 style={styles.upperLikeIcon}
                 name="dots-three-horizontal"
                 size={24}
-                color="#555"
+                color={Colors.white}
               />
             </TouchableOpacity>
             <ReportPopup visible={reportVisible} onClose={handleReportClose} />
@@ -301,7 +300,7 @@ const ImageScreen = ({ route, navigation }) => {
                 <Octicons
                   name="location"
                   size={18}
-                  color="black"
+                  color={Colors.white}
                   style={styles.locationIcon}
                 />
                 <Text
@@ -340,13 +339,16 @@ const styles = StyleSheet.create({
   locationTxt: {
     paddingLeft: 8,
     fontSize: 20,
+    color: Colors.white,
   },
   viewsDownloadsTxt: {
     fontSize: 15,
+    color: Colors.white,
   },
   viewsDownloadsTitleTxt: {
     fontSize: 18,
     fontWeight: "bold",
+    color: Colors.white,
   },
   viewsDownloadsContainer: {
     paddingHorizontal: 15,
@@ -368,7 +370,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalContainer: {
-    backgroundColor: "#fff",
+    backgroundColor: Colors.black,
     borderRadius: 10,
     padding: 20,
     minWidth: "50%",
@@ -380,10 +382,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 10,
+    color: Colors.white,
   },
   option: {
     fontSize: 16,
     paddingVertical: 10,
+    color: Colors.white,
   },
   downButton: {
     paddingTop: 10,
@@ -417,6 +421,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     // borderRadius: 5,
     borderColor: "#555",
+    color: Colors.white,
   },
   upperAddIcon: {
     borderWidth: 2,
@@ -431,7 +436,7 @@ const styles = StyleSheet.create({
 
   profileContainer2: {
     flexDirection: "row",
-    backgroundColor: "white",
+    backgroundColor: Colors.black,
     paddingVertical: 10,
     alignItems: "center",
   },
@@ -467,12 +472,13 @@ const styles = StyleSheet.create({
   },
   profileContainer: {
     flexDirection: "row",
-    backgroundColor: "white",
+    backgroundColor: Colors.black,
   },
   usersNameText: {
     fontSize: 20,
     paddingTop: 20,
     paddingLeft: 20,
+    color: Colors.white,
   },
   userNameTxt: {
     // opacity: 0.5,
@@ -493,17 +499,6 @@ const styles = StyleSheet.create({
     right: 10,
     paddingVertical: 10,
   },
-  likeTxt: {
-    paddingLeft: 10,
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  descriptionTextContainer: {
-    paddingHorizontal: 10,
-  },
-  descriptionTxt: {
-    fontSize: 15,
-  },
   loader: {
     marginVertical: 380,
     alignItems: "center",
@@ -514,7 +509,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "white",
   },
-  loadingIndicator: {},
   loaderContainer: {
     backgroundColor: "#555",
     padding: 20,

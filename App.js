@@ -8,15 +8,22 @@ import UserDetail from "./screens/UserDetail";
 import Message from "./screens/Message";
 import ImageScreen from "./screens/ImageScreen";
 import TruncatedHeader from "./components/OTHER/TruncatedHeader";
+import { Colors } from "./constants/colors";
 
 const Stack = createNativeStackNavigator();
 
 export default function App({ route }) {
   return (
     <>
-      <StatusBar style="dark" />
+      <StatusBar style="light" />
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: { backgroundColor: Colors.black },
+            headerTintColor: Colors.white,
+            contentStyle: { backgroundColor: Colors.black },
+          }}
+        >
           <Stack.Screen
             name="Users"
             component={UserList}
