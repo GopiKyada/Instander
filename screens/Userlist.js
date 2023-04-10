@@ -12,6 +12,7 @@ import axios from "axios";
 import { Menu, MenuItem } from "react-native-material-menu";
 import { AntDesign } from "@expo/vector-icons";
 import { Colors } from "../constants/colors";
+import FloatingButton from "../components/OTHER/FloatingButton";
 
 const UserList = ({ navigation }) => {
   const [users, setUsers] = useState([]);
@@ -120,35 +121,37 @@ const UserList = ({ navigation }) => {
 
   const renderItem = ({ item }) => {
     return (
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate("UserDetail", {
-            selectedUsername: item.user.username,
-            itemArr: item,
-          });
-        }}
-      >
-        <View style={styles.card}>
-          <View style={styles.imgContainer}>
-            <Image
-              style={styles.img}
-              source={{ uri: item.user.profile_image.large }}
-            />
+      <View>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("UserDetail", {
+              selectedUsername: item.user.username,
+              itemArr: item,
+            });
+          }}
+        >
+          <View style={styles.card}>
+            <View style={styles.imgContainer}>
+              <Image
+                style={styles.img}
+                source={{ uri: item.user.profile_image.large }}
+              />
+            </View>
+            <View style={styles.nameContainer}>
+              <Text
+                style={styles.nameText}
+                numberOfLines={1}
+                ellipsizeMode="tail"
+              >
+                {item.user.name.length > 18
+                  ? `${item.user.name.substring(0, 18)}...`
+                  : item.user.name}
+              </Text>
+              <Text style={styles.usernameText}>@{item.user.username}</Text>
+            </View>
           </View>
-          <View style={styles.nameContainer}>
-            <Text
-              style={styles.nameText}
-              numberOfLines={1}
-              ellipsizeMode="tail"
-            >
-              {item.user.name.length > 18
-                ? `${item.user.name.substring(0, 18)}...`
-                : item.user.name}
-            </Text>
-            <Text style={styles.usernameText}>@{item.user.username}</Text>
-          </View>
-        </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      </View>
     );
   };
 
@@ -174,6 +177,7 @@ const UserList = ({ navigation }) => {
         onEndReached={loadMoreItem}
         onEndReachedThreshold={0}
       />
+      <FloatingButton />
     </View>
   );
 };

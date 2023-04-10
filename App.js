@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, StyleSheet, Text, View, Alert } from "react-native";
+import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -9,10 +9,12 @@ import Message from "./screens/Message";
 import ImageScreen from "./screens/ImageScreen";
 import TruncatedHeader from "./components/OTHER/TruncatedHeader";
 import { Colors } from "./constants/colors";
+import SettingScreen from "./screens/SettingScreen";
+import { useState } from "react";
 
 const Stack = createNativeStackNavigator();
 
-export default function App({ route }) {
+export default function App() {
   return (
     <>
       <StatusBar style="light" />
@@ -57,14 +59,9 @@ export default function App({ route }) {
             }}
           />
           <Stack.Screen name="Image" component={ImageScreen} />
+          <Stack.Screen name="Setting" component={SettingScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
