@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState, useEffect } from "react";
+import { useLayoutEffect, useState, useEffect, useContext } from "react";
 import {
   ScrollView,
   View,
@@ -23,6 +23,7 @@ import {
 import OutlinedButton from "../components/UI/OutlinedButton";
 import OutlinedUnfillButton from "../components/UI/OutlinedUnfillButton";
 import { Colors } from "../constants/colors";
+import { ThemeContext } from "../components/OTHER/ThemeContext";
 
 const backgroundColor = Colors.blue;
 
@@ -37,6 +38,8 @@ const UserDetail = ({ route, navigation }) => {
   );
   const [portraitStyle, setPortraitStyle] = useState(styles.portraitBtn);
   const [squarishStyle, setSquarishStyle] = useState(styles.squaishBtn);
+
+  const { theme } = useContext(ThemeContext);
 
   const landscapeHandler = () => {
     setorientation("landscape");
@@ -109,7 +112,9 @@ const UserDetail = ({ route, navigation }) => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.backgroundColor }]}
+    >
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.imgContainer}>
           <Image
@@ -315,7 +320,7 @@ const styles = StyleSheet.create({
   },
 
   container: {
-    marginHorizontal: 30,
+    paddingHorizontal: 30,
   },
   imgContainer: {
     alignItems: "center",

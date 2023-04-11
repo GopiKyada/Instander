@@ -1,25 +1,33 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { FloatingAction } from "react-native-floating-action";
-import { Feather, FontAwesome } from "@expo/vector-icons";
+import { Feather, FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { ThemeContext } from "./ThemeContext";
 
 const FloatingButton = ({ onToggleColorScheme }) => {
+  const { isDarkMode, toggleDarkMode, theme } = useContext(ThemeContext);
   const navigation = useNavigation();
   const actions = [
     {
       text: "Dark",
-      icon: <FontAwesome name="moon-o" size={24} color="black" />,
+      icon: <FontAwesome name="moon-o" size={24} color="white" />,
       name: "dark",
       position: 1,
-      onPress: () => onToggleColorScheme(),
+      onPress: () => toggleDarkMode(),
     },
     {
       text: "Light",
-      icon: <Feather name="sun" size={24} color="black" />,
+      icon: <Feather name="sun" size={24} color="white" />,
       name: "light",
       position: 2,
       onPress: () => onToggleColorScheme(),
+    },
+    {
+      text: "Settings",
+      icon: <Ionicons name="ios-settings-sharp" size={24} color="white" />,
+      name: "setting",
+      position: 3,
     },
   ];
 

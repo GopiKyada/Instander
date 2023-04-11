@@ -11,19 +11,20 @@ import TruncatedHeader from "./components/OTHER/TruncatedHeader";
 import { Colors } from "./constants/colors";
 import SettingScreen from "./screens/SettingScreen";
 import { useState } from "react";
+import { ThemeProvider } from "./components/OTHER/ThemeContext";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <>
+    <ThemeProvider>
       <StatusBar style="light" />
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
             headerStyle: { backgroundColor: Colors.black },
             headerTintColor: Colors.white,
-            contentStyle: { backgroundColor: Colors.black },
+            // contentStyle: { backgroundColor: Colors.black },
           }}
         >
           <Stack.Screen
@@ -62,6 +63,6 @@ export default function App() {
           <Stack.Screen name="Setting" component={SettingScreen} />
         </Stack.Navigator>
       </NavigationContainer>
-    </>
+    </ThemeProvider>
   );
 }

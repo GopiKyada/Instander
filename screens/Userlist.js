@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useLayoutEffect } from "react";
+import React, { useEffect, useState, useLayoutEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -13,6 +13,7 @@ import { Menu, MenuItem } from "react-native-material-menu";
 import { AntDesign } from "@expo/vector-icons";
 import { Colors } from "../constants/colors";
 import FloatingButton from "../components/OTHER/FloatingButton";
+import { ThemeContext } from "../components/OTHER/ThemeContext";
 
 const UserList = ({ navigation }) => {
   const [users, setUsers] = useState([]);
@@ -25,6 +26,8 @@ const UserList = ({ navigation }) => {
   const hideMenu = () => setVisible(false);
 
   const showMenu = () => setVisible(true);
+
+  const { theme } = useContext(ThemeContext);
 
   const latestMenuHandler = () => {
     setVisible(false);
@@ -168,7 +171,9 @@ const UserList = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: theme.backgroundColor }]}
+    >
       <FlatList
         data={users}
         renderItem={renderItem}
