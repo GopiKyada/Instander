@@ -119,7 +119,7 @@ const GraphModal = ({ visible, onClose, username }) => {
                 tickLabels: {
                   angle: -15,
                   textAnchor: "start",
-                  fill: "#FFFFFF",
+                  fill: Colors.white,
                 },
                 // axis: { stroke: "none" },
                 ticks: { stroke: "none" },
@@ -138,7 +138,7 @@ const GraphModal = ({ visible, onClose, username }) => {
               y="value"
               labels={({ datum }) => formatLabel(datum.value)}
               labelComponent={<VictoryLabel dy={-1} />}
-              style={{ data: { fill: "#FFFFFF" } }}
+              style={{ data: { fill: Colors.white } }}
             />
           </VictoryChart>
         </View>
