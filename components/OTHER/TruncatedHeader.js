@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, StyleSheet } from "react-native";
+import { Colors } from "../../constants/colors";
 
 const TruncatedHeader = ({ title }) => {
   const truncatedTitle =
@@ -14,6 +15,6 @@ const styles = StyleSheet.create({
   headerTitleStyle: {
     fontWeight: "bold",
     fontSize: 25,
-    color: "white",
+    color: Colors.white,
   },
 });

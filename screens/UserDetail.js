@@ -89,7 +89,7 @@ const UserDetail = ({ route, navigation }) => {
           <FontAwesome5
             name="facebook-messenger"
             size={30}
-            color={Colors.blue}
+            color="#256BFE"
             // style={{ backgroundColor: "white" }}
             onPress={messageSendHandler}
           />
