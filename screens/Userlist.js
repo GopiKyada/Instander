@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
 import axios from "axios";
 import { Menu, MenuItem } from "react-native-material-menu";
 import { AntDesign } from "@expo/vector-icons";
@@ -16,6 +18,8 @@ import FloatingButton from "../components/OTHER/FloatingButton";
 import { ThemeContext } from "../components/OTHER/ThemeContext";
 
 const UserList = ({ navigation }) => {
+  const { theme } = useContext(ThemeContext);
+  const navigations = useNavigation();
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
@@ -26,8 +30,6 @@ const UserList = ({ navigation }) => {
   const hideMenu = () => setVisible(false);
 
   const showMenu = () => setVisible(true);
-
-  const { theme } = useContext(ThemeContext);
 
   const latestMenuHandler = () => {
     setVisible(false);
@@ -67,7 +69,15 @@ const UserList = ({ navigation }) => {
 
   useEffect(() => {
     getUserData();
-  }, [currentPage, orderBy]);
+    navigations.setOptions({
+      headerStyle: {
+        backgroundColor: theme.backgroundColor, // set your desired color here
+      },
+      headerTitleStyle: {
+        color: theme.textColor, // set your desired color here
+      },
+    });
+  }, [currentPage, orderBy, theme]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -87,7 +97,7 @@ const UserList = ({ navigation }) => {
                   <AntDesign
                     name="bars"
                     size={24}
-                    color={Colors.white}
+                    color={theme.textColor}
                     onPress={showMenu}
                   />
                 </TouchableOpacity>
@@ -95,22 +105,22 @@ const UserList = ({ navigation }) => {
               onRequestClose={hideMenu}
             >
               <MenuItem
-                style={styles.menuItem}
-                textStyle={styles.menuItemTxt}
+                style={{ backgroundColor: theme.backgroundColor }}
+                textStyle={{ color: theme.textColor }}
                 onPress={latestMenuHandler}
               >
                 latest
               </MenuItem>
               <MenuItem
-                style={styles.menuItem}
-                textStyle={styles.menuItemTxt}
+                style={{ backgroundColor: theme.backgroundColor }}
+                textStyle={{ color: theme.textColor }}
                 onPress={oldestMenuHandler}
               >
                 oldest
               </MenuItem>
               <MenuItem
-                style={styles.menuItem}
-                textStyle={styles.menuItemTxt}
+                style={{ backgroundColor: theme.backgroundColor }}
+                textStyle={{ color: theme.textColor }}
                 onPress={popularMenuHandler}
               >
                 popular
@@ -133,7 +143,7 @@ const UserList = ({ navigation }) => {
             });
           }}
         >
-          <View style={styles.card}>
+          <View style={[styles.card, { backgroundColor: theme.cardColor }]}>
             <View style={styles.imgContainer}>
               <Image
                 style={styles.img}
@@ -142,7 +152,7 @@ const UserList = ({ navigation }) => {
             </View>
             <View style={styles.nameContainer}>
               <Text
-                style={styles.nameText}
+                style={[styles.nameText, { color: theme.textColor }]}
                 numberOfLines={1}
                 ellipsizeMode="tail"
               >
@@ -150,7 +160,9 @@ const UserList = ({ navigation }) => {
                   ? `${item.user.name.substring(0, 18)}...`
                   : item.user.name}
               </Text>
-              <Text style={styles.usernameText}>@{item.user.username}</Text>
+              <Text style={[styles.usernameText, { color: theme.textColor }]}>
+                @{item.user.username}
+              </Text>
             </View>
           </View>
         </TouchableOpacity>
@@ -199,7 +211,7 @@ const styles = StyleSheet.create({
     width: "95%",
     paddingBottom: 10,
     flexDirection: "row",
-    backgroundColor: Colors.blue,
+    // backgroundColor: Colors.blue,
     marginBottom: 10,
     marginHorizontal: 10,
     borderRadius: 10,
@@ -223,13 +235,13 @@ const styles = StyleSheet.create({
     margin: 15,
   },
   nameText: {
-    color: Colors.white,
+    // color: Colors.white,
     fontSize: 24,
     fontWeight: "bold",
     paddingBottom: 5,
   },
   usernameText: {
-    color: Colors.white,
+    // color: Colors.white,
     fontSize: 15,
   },
   button: {
@@ -241,11 +253,5 @@ const styles = StyleSheet.create({
   loader: {
     marginVertical: 8,
     alignItems: "center",
-  },
-  menuItem: {
-    backgroundColor: Colors.black,
-  },
-  menuItemTxt: {
-    color: Colors.white,
   },
 });

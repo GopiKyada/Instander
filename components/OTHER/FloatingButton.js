@@ -10,18 +10,14 @@ const FloatingButton = ({ onToggleColorScheme }) => {
   const navigation = useNavigation();
   const actions = [
     {
-      text: "Dark",
-      icon: <FontAwesome name="moon-o" size={24} color="white" />,
-      name: "dark",
+      text: isDarkMode ? "Light" : "Dark",
+      icon: isDarkMode ? (
+        <Feather name="sun" size={24} color="white" />
+      ) : (
+        <FontAwesome name="moon-o" size={24} color="white" />
+      ),
+      name: "darkLight",
       position: 1,
-      onPress: () => toggleDarkMode(),
-    },
-    {
-      text: "Light",
-      icon: <Feather name="sun" size={24} color="white" />,
-      name: "light",
-      position: 2,
-      onPress: () => onToggleColorScheme(),
     },
     {
       text: "Settings",
@@ -39,6 +35,9 @@ const FloatingButton = ({ onToggleColorScheme }) => {
         onPressItem={(name) => {
           if (name === "setting") {
             navigation.navigate("Setting");
+          }
+          if (name === "darkLight") {
+            toggleDarkMode();
           }
         }}
       />

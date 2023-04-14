@@ -10,6 +10,9 @@ export const getColors = (isDarkMode) => {
       backgroundColor: "#1E1E1E", //black
       textColor: "white",
       cardColor: "#256BFE", //blue
+      tabColor: "black",
+      activeTab: "#256BFE", //blue
+      specialTxt: "#0099FF", //blue tick color
       // It is Dark Mode
     };
   } else {
@@ -17,6 +20,9 @@ export const getColors = (isDarkMode) => {
       backgroundColor: "#f6f6f8", //grey
       textColor: "black",
       cardColor: "white",
+      tabColor: "white",
+      activeTab: "pink",
+      specialTxt: "#0099FF", //blue tick color
       //It is Light Mode
     };
   }

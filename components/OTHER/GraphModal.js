@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
 import {
   VictoryChart,
@@ -9,13 +9,19 @@ import {
   VictoryLabel,
 } from "victory-native";
 import { Colors } from "../../constants/colors";
+import { ThemeContext } from "./ThemeContext";
 
 const GraphModal = ({ visible, onClose, username }) => {
+  const { theme } = useContext(ThemeContext);
   const [chartValueList, setChartValueList] = useState([]);
-  const [viewBtnStyle, setViewBtnStyle] = useState(styles.viewActiveTab);
-  const [downloadsBtnStyle, setDownloadsBtnStyle] = useState(
-    styles.downloadsTab
-  );
+  const [viewBtnStyle, setViewBtnStyle] = useState([
+    styles.viewActiveTab,
+    { backgroundColor: theme.activeTab },
+  ]);
+  const [downloadsBtnStyle, setDownloadsBtnStyle] = useState([
+    styles.downloadsTab,
+    { backgroundColor: theme.tabColor },
+  ]);
   const [text, setTxt] = useState("Views(Latest Update)");
   const [selectedValue, setSelectedValue] = useState("views");
 
@@ -27,15 +33,24 @@ const GraphModal = ({ visible, onClose, username }) => {
   };
 
   const viewsTabHandler = () => {
-    setViewBtnStyle(styles.viewActiveTab);
-    setDownloadsBtnStyle(styles.downloadsTab);
+    setViewBtnStyle([
+      styles.viewActiveTab,
+      { backgroundColor: theme.activeTab },
+    ]);
+    setDownloadsBtnStyle([
+      styles.downloadsTab,
+      { backgroundColor: theme.tabColor },
+    ]);
     setTxt("Views(Latest Update)");
     setSelectedValue("views");
   };
 
   const downloadsTabHandler = () => {
-    setDownloadsBtnStyle(styles.downloadsActiveTab);
-    setViewBtnStyle(styles.viewTab);
+    setDownloadsBtnStyle([
+      styles.downloadsActiveTab,
+      { backgroundColor: theme.activeTab },
+    ]);
+    setViewBtnStyle([styles.viewTab, { backgroundColor: theme.tabColor }]);
     setTxt("Downloads(Latest Update)");
     setSelectedValue("downloads");
   };
@@ -65,16 +80,22 @@ const GraphModal = ({ visible, onClose, username }) => {
   return (
     <Modal transparent={true} visible={visible} onRequestClose={onClose}>
       <TouchableOpacity style={styles.overlay} onPress={onClose} />
-      <View style={styles.container}>
+      <View
+        style={[styles.container, { backgroundColor: theme.backgroundColor }]}
+      >
         <View style={styles.tabContainer}>
           <TouchableOpacity style={viewBtnStyle} onPress={viewsTabHandler}>
-            <Text style={styles.tabTxt}>Views</Text>
+            <Text style={[styles.tabTxt, { color: theme.textColor }]}>
+              Views
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={downloadsBtnStyle}
             onPress={downloadsTabHandler}
           >
-            <Text style={styles.tabTxt}>Downloads</Text>
+            <Text style={[styles.tabTxt, { color: theme.textColor }]}>
+              Downloads
+            </Text>
           </TouchableOpacity>
         </View>
         <Text
@@ -82,7 +103,7 @@ const GraphModal = ({ visible, onClose, username }) => {
             fontWeight: "bold",
             fontSize: 20,
             paddingTop: 10,
-            color: Colors.white,
+            color: theme.textColor,
           }}
         >
           {text}
@@ -119,7 +140,7 @@ const GraphModal = ({ visible, onClose, username }) => {
                 tickLabels: {
                   angle: -15,
                   textAnchor: "start",
-                  fill: Colors.white,
+                  fill: theme.textColor,
                 },
                 // axis: { stroke: "none" },
                 ticks: { stroke: "none" },
@@ -138,7 +159,7 @@ const GraphModal = ({ visible, onClose, username }) => {
               y="value"
               labels={({ datum }) => formatLabel(datum.value)}
               labelComponent={<VictoryLabel dy={-1} />}
-              style={{ data: { fill: Colors.white } }}
+              style={{ data: { fill: theme.textColor } }}
             />
           </VictoryChart>
         </View>
@@ -162,7 +183,7 @@ const styles = StyleSheet.create({
     top: "45%",
     left: "42%",
     transform: [{ translateX: -160 }, { translateY: -130 }],
-    backgroundColor: Colors.black,
+    // backgroundColor: Colors.black,
     padding: 20,
     borderRadius: 10,
     alignItems: "center",
@@ -187,19 +208,19 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
     fontWeight: "bold",
-    color: Colors.white,
+    // color: Colors.white,
   },
   viewTab: {
-    borderColor: Colors.blue,
-    backgroundColor: Colors.black,
+    // borderColor: Colors.blue,
+    // backgroundColor: Colors.black,
     width: "45%",
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5,
     paddingVertical: 10,
   },
   downloadsTab: {
-    borderColor: Colors.blue,
-    backgroundColor: Colors.black,
+    // borderColor: Colors.blue,
+    // backgroundColor: Colors.black,
     width: "45%",
     borderTopRightRadius: 5,
     borderBottomRightRadius: 5,
@@ -210,13 +231,13 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5,
     paddingVertical: 10,
-    backgroundColor: Colors.blue,
+    // backgroundColor: Colors.blue,
   },
   downloadsActiveTab: {
     width: "45%",
     borderTopRightRadius: 5,
     borderBottomRightRadius: 5,
     paddingVertical: 10,
-    backgroundColor: Colors.blue,
+    // backgroundColor: Colors.blue,
   },
 });

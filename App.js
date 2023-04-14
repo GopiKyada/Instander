@@ -10,19 +10,19 @@ import ImageScreen from "./screens/ImageScreen";
 import TruncatedHeader from "./components/OTHER/TruncatedHeader";
 import { Colors } from "./constants/colors";
 import SettingScreen from "./screens/SettingScreen";
-import { useState } from "react";
-import { ThemeProvider } from "./components/OTHER/ThemeContext";
+import { useContext, useState } from "react";
+import { ThemeContext, ThemeProvider } from "./components/OTHER/ThemeContext";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <ThemeProvider>
-      <StatusBar style="light" />
+      {/* <StatusBar style="auto" /> */}
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
-            headerStyle: { backgroundColor: Colors.black },
+            // headerStyle: { backgroundColor: Colors.black },
             headerTintColor: Colors.white,
             // contentStyle: { backgroundColor: Colors.black },
           }}
@@ -59,7 +59,13 @@ export default function App() {
               headerShown: false,
             }}
           />
-          <Stack.Screen name="Image" component={ImageScreen} />
+          <Stack.Screen
+            name="Image"
+            component={ImageScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
           <Stack.Screen name="Setting" component={SettingScreen} />
         </Stack.Navigator>
       </NavigationContainer>

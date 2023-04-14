@@ -8,16 +8,19 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { FontAwesome, Feather, Ionicons } from "@expo/vector-icons";
+import { useContext } from "react";
+import { ThemeContext } from "../components/OTHER/ThemeContext";
 
 function Message({ route, navigation }) {
+  const { theme } = useContext(ThemeContext);
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.backgroundColor }}>
       <View style={styles.usrProfileContainer}>
         <TouchableOpacity>
           <Ionicons
             name="arrow-back"
             size={24}
-            color="black"
+            color={theme.textColor}
             style={{
               paddingTop: 10,
               paddingBottom: 10,
@@ -40,18 +43,20 @@ function Message({ route, navigation }) {
         </View>
         <View style={styles.usrnameTxtContainer}>
           {/* <Text style={styles.usrsnameTxt}>{route.params.name}</Text> */}
-          <Text style={styles.usrsnameTxt}>
+          <Text style={[styles.usrsnameTxt, { color: theme.textColor }]}>
             {route.params.name.length > 17
               ? `${route.params.name.substring(0, 17)}...`
               : route.params.name}
           </Text>
-          <Text style={styles.usrnameTxt}>@{route.params.userName}</Text>
+          <Text style={[styles.usrnameTxt, { color: theme.textColor }]}>
+            @{route.params.userName}
+          </Text>
         </View>
         <TouchableOpacity style={styles.infoIcon}>
           <Feather
             name="info"
             size={30}
-            color="black"
+            color={theme.textColor}
             onPress={() => {
               navigation.navigate("UserDetail", {
                 itemArr: route.params.item,
@@ -60,10 +65,10 @@ function Message({ route, navigation }) {
           />
         </TouchableOpacity>
         <TouchableOpacity style={styles.videocallIcon}>
-          <Feather name="video" size={30} color="black" />
+          <Feather name="video" size={30} color={theme.textColor} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.callIcon}>
-          <Ionicons name="call-outline" size={30} color="black" />
+          <Ionicons name="call-outline" size={30} color={theme.textColor} />
         </TouchableOpacity>
       </View>
       <View style={styles.bottomContainer}>
@@ -78,10 +83,11 @@ export default Message;
 
 const styles = StyleSheet.create({
   usrProfileContainer: {
-    marginTop: 30,
+    marginTop: 5,
     // borderWidth: 1,
     flexDirection: "row",
-    backgroundColor: "white",
+    // backgroundColor: "white",
+    marginHorizontal: 5,
   },
   usrProfileImageContainer: {
     height: 50,

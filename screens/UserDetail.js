@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import {
   Ionicons,
@@ -30,39 +31,62 @@ const backgroundColor = Colors.blue;
 const color = Colors.white;
 
 const UserDetail = ({ route, navigation }) => {
+  const { theme } = useContext(ThemeContext);
+  const navigations = useNavigation();
   const [imageList, setImageList] = useState([]);
   const [orientation, setorientation] = useState("landscape");
   const [style, setStyle] = useState(styles.landscapeImg);
-  const [landscapeStyle, setLandscapeStyle] = useState(
-    styles.buttonLandscapeActive
-  );
-  const [portraitStyle, setPortraitStyle] = useState(styles.portraitBtn);
-  const [squarishStyle, setSquarishStyle] = useState(styles.squaishBtn);
-
-  const { theme } = useContext(ThemeContext);
+  const [landscapeStyle, setLandscapeStyle] = useState([
+    styles.buttonLandscapeActive,
+    { backgroundColor: theme.activeTab },
+  ]);
+  const [portraitStyle, setPortraitStyle] = useState([
+    styles.portraitBtn,
+    { backgroundColor: theme.tabColor },
+  ]);
+  const [squarishStyle, setSquarishStyle] = useState([
+    styles.squaishBtn,
+    ,
+    { backgroundColor: theme.tabColor },
+  ]);
 
   const landscapeHandler = () => {
     setorientation("landscape");
     setStyle(styles.landscapeImg);
-    setLandscapeStyle(styles.buttonLandscapeActive);
-    setPortraitStyle(styles.portraitBtn);
-    setSquarishStyle(styles.squaishBtn);
+    setLandscapeStyle([
+      styles.buttonLandscapeActive,
+      { backgroundColor: theme.activeTab },
+    ]);
+    setPortraitStyle([styles.portraitBtn, { backgroundColor: theme.tabColor }]);
+    setSquarishStyle([styles.squaishBtn, { backgroundColor: theme.tabColor }]);
   };
 
   const portraitHandler = () => {
     setorientation("portrait");
     setStyle(styles.portraitImg);
-    setPortraitStyle(styles.portraitBtnActive);
-    setLandscapeStyle(styles.landscapeBtn);
-    setSquarishStyle(styles.squaishBtn);
+    setPortraitStyle([
+      styles.portraitBtnActive,
+      { backgroundColor: theme.activeTab },
+    ]);
+    setLandscapeStyle([
+      styles.landscapeBtn,
+      { backgroundColor: theme.tabColor },
+    ]);
+    setSquarishStyle([styles.squaishBtn, { backgroundColor: theme.tabColor }]);
   };
 
   const squarishHandler = () => {
     setorientation("squarish");
     setStyle(styles.squarishImg);
-    setSquarishStyle(styles.squarishBtnActive);
-    setLandscapeStyle(styles.landscapeBtn);
-    setPortraitStyle(styles.portraitBtn);
+    setSquarishStyle([
+      styles.squarishBtnActive,
+      { backgroundColor: theme.activeTab },
+    ]);
+    setLandscapeStyle([
+      styles.landscapeBtn,
+      { backgroundColor: theme.tabColor },
+    ]);
+    setPortraitStyle([styles.portraitBtn, { backgroundColor: theme.tabColor }]);
   };
 
   const getUserImageData = async () => {
@@ -83,7 +107,16 @@ const UserDetail = ({ route, navigation }) => {
 
   useEffect(() => {
     getUserImageData();
-  }, [getUserImageData, orientation]);
+    navigations.setOptions({
+      headerStyle: {
+        backgroundColor: theme.backgroundColor, // set your desired color here
+      },
+      headerTitleStyle: {
+        color: theme.textColor, // set your desired color here
+      },
+      headerTintColor: theme.textColor,
+    });
+  }, [getUserImageData, orientation, theme]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -123,35 +156,61 @@ const UserDetail = ({ route, navigation }) => {
           />
         </View>
         <View style={styles.simpleContainer}>
-          <Text style={styles.titletxt}>{items.user.name}</Text>
-          <Text style={styles.imptxt}>@{items.user.username}</Text>
+          <Text style={[styles.titletxt, { color: theme.textColor }]}>
+            {items.user.name}
+          </Text>
+          <Text style={[styles.imptxt, { color: theme.textColor }]}>
+            @{items.user.username}
+          </Text>
         </View>
         <View style={styles.likeandPostContainer}>
-          <View style={styles.likeContainer}>
-            <Text style={styles.titletxt}>Likes</Text>
-            <Text style={styles.text}>{items.user.total_likes}</Text>
+          <View
+            style={[styles.likeContainer, { backgroundColor: theme.cardColor }]}
+          >
+            <Text style={[styles.titletxt, { color: theme.textColor }]}>
+              Likes
+            </Text>
+            <Text style={[styles.text, , { color: theme.textColor }]}>
+              {items.user.total_likes}
+            </Text>
           </View>
-          <View style={styles.postContainer}>
-            <Text style={styles.titletxt}>Posts</Text>
-            <Text style={styles.text}>{items.user.total_photos}</Text>
+          <View
+            style={[styles.postContainer, { backgroundColor: theme.cardColor }]}
+          >
+            <Text style={[styles.titletxt, { color: theme.textColor }]}>
+              Posts
+            </Text>
+            <Text style={[styles.text, { color: theme.textColor }]}>
+              {items.user.total_photos}
+            </Text>
           </View>
         </View>
         {items.user.bio ? (
-          <View style={styles.bioContainer}>
-            <Text style={styles.titletxt}>Bio</Text>
-            <Text style={styles.bioText}>{items.user.bio}</Text>
+          <View
+            style={[styles.bioContainer, { backgroundColor: theme.cardColor }]}
+          >
+            <Text style={[styles.titletxt, { color: theme.textColor }]}>
+              Bio
+            </Text>
+            <Text style={[styles.bioText, { color: theme.textColor }]}>
+              {items.user.bio}
+            </Text>
           </View>
         ) : null}
         {items.user.location ? (
-          <View style={styles.bioContainer}>
-            <Text style={styles.titletxt}>Location</Text>
+          <View
+            style={[styles.bioContainer, { backgroundColor: theme.cardColor }]}
+          >
+            <Text style={[styles.titletxt, { color: theme.textColor }]}>
+              Location
+            </Text>
             <View style={styles.locationTextContainer}>
               <Text
                 numberOfLines={1}
                 ellipsizeMode="tail"
-                style={styles.locationText}
+                style={[styles.locationText, { color: theme.textColor }]}
               >
-                <EvilIcons name="location" size={25} color={Colors.white} />
+                <EvilIcons name="location" size={25} color={theme.textColor} />
                 {items.user.location.length > 20
                   ? `${items.user.location.substring(0, 20)}...`
                   : items.user.location}
@@ -165,27 +224,39 @@ const UserDetail = ({ route, navigation }) => {
           <OutlinedButton children="Follow" />
         </View>
         {items.user.social.instagram_username ? (
-          <View style={styles.socialmediaContainer}>
+          <View
+            style={[
+              styles.socialmediaContainer,
+              { backgroundColor: theme.cardColor },
+            ]}
+          >
             <View style={styles.userText}>
               <Entypo
                 name="instagram"
                 size={20}
-                color={Colors.white}
+                color={theme.textColor}
                 style={styles.icon}
               />
-              <Text style={styles.socialmediaText}>
+              <Text
+                style={[styles.socialmediaText, { color: theme.textColor }]}
+              >
                 {items.user.social.instagram_username}
               </Text>
             </View>
           </View>
         ) : null}
         {items.user.social.portfolio_url ? (
-          <View style={styles.socialmediaContainer}>
+          <View
+            style={[
+              styles.socialmediaContainer,
+              { backgroundColor: theme.cardColor },
+            ]}
+          >
             <View style={styles.userText}>
               <MaterialCommunityIcons
                 name="web"
                 size={20}
-                color={Colors.white}
+                color={theme.textColor}
                 style={styles.icon}
               />
               <Text
@@ -198,30 +269,44 @@ const UserDetail = ({ route, navigation }) => {
           </View>
         ) : null}
         {items.user.social.twitter_username ? (
-          <View style={styles.socialmediaContainer}>
+          <View
+            style={[
+              styles.socialmediaContainer,
+              { backgroundColor: theme.cardColor },
+            ]}
+          >
             <View style={styles.userText}>
               <AntDesign
                 name="twitter"
                 size={20}
-                color={Colors.white}
+                color={theme.textColor}
                 style={styles.icon}
               />
-              <Text style={styles.socialmediaText}>
+              <Text
+                style={[styles.socialmediaText, { color: theme.textColor }]}
+              >
                 {items.user.social.twitter_username}
               </Text>
             </View>
           </View>
         ) : null}
         {items.user.social.paypal_email ? (
-          <View style={styles.socialmediaContainer}>
+          <View
+            style={[
+              styles.socialmediaContainer,
+              { backgroundColor: theme.cardColor },
+            ]}
+          >
             <View style={styles.userText}>
               <Entypo
                 name="paypal"
                 size={20}
-                color={Colors.white}
+                color={theme.textColor}
                 style={styles.icon}
               />
-              <Text style={styles.socialmediaText}>
+              <Text
+                style={[styles.socialmediaText, { color: theme.textColor }]}
+              >
                 {items.user.social.paypal_email}
               </Text>
             </View>
@@ -232,18 +317,26 @@ const UserDetail = ({ route, navigation }) => {
             flexDirection: "row",
             marginBottom: 5,
             borderWidth: 3,
-            borderColor: Colors.blue,
+
+            borderColor: theme.cardColor,
             borderRadius: 5,
+            backgroundColor: theme.cardColor,
           }}
         >
           <TouchableOpacity onPress={landscapeHandler} style={landscapeStyle}>
-            <Text style={styles.lpstxt}>Landscape</Text>
+            <Text style={[styles.lpstxt, { color: theme.textColor }]}>
+              Landscape
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={portraitHandler} style={portraitStyle}>
-            <Text style={styles.lpstxt}>Portrait</Text>
+            <Text style={[styles.lpstxt, { color: theme.textColor }]}>
+              Portrait
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={squarishHandler} style={squarishStyle}>
-            <Text style={styles.lpstxt}>Squarish</Text>
+            <Text style={[styles.lpstxt, { color: theme.textColor }]}>
+              Squarish
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -287,7 +380,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingLeft: 130,
     opacity: 0.5,
-    color: Colors.white,
+    // color: Colors.white,
   },
   nullImgTxtContainer: {
     marginVertical: 100,
@@ -340,17 +433,17 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     textAlign: "center",
     paddingBottom: 5,
-    color,
+    // color,
   },
   imptxt: {
     fontSize: 18,
     textAlign: "center",
-    color,
+    // color,
   },
   bioContainer: {
     marginBottom: 20,
     justifyContent: "center",
-    backgroundColor,
+    // backgroundColor,
     paddingBottom: 10,
     borderRadius: 10,
     shadowOpacity: 1,
@@ -358,7 +451,7 @@ const styles = StyleSheet.create({
   },
   socialmediaContainer: {
     marginBottom: 10,
-    backgroundColor,
+    // backgroundColor,
     borderRadius: 10,
     shadowOpacity: 1,
     paddingTop: 10,
@@ -382,24 +475,24 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
     marginRight: 8,
-    color: Colors.white,
+    // color: Colors.white,
   },
   bioText: {
     fontSize: 15,
     paddingHorizontal: 20,
     paddingBottom: 15,
-    color,
+    // color,
   },
   text: {
     fontSize: 15,
     paddingHorizontal: 20,
-    color,
+    // color,
   },
   locationText: {
     fontSize: 18,
     paddingLeft: 20,
     paddingBottom: 10,
-    color,
+    // color,
   },
   likeContainer: {
     width: 170,
@@ -407,7 +500,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginRight: 10,
     height: 100,
-    backgroundColor,
+    // backgroundColor,
     borderRadius: 10,
     shadowOpacity: 1,
   },
@@ -424,7 +517,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     paddingBottom: 10,
     paddingLeft: 10,
-    color,
+    // color,
   },
   linkText: {
     fontSize: 15,
@@ -461,22 +554,22 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   landscapeBtn: {
-    borderColor: "white",
-    backgroundColor: Colors.black,
+    // borderColor: "white",
+    // backgroundColor: Colors.black,
     width: "33.34%",
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5,
     paddingVertical: 10,
   },
   portraitBtn: {
-    borderColor: "white",
-    backgroundColor: Colors.black,
+    // borderColor: "white",
+    // backgroundColor: Colors.black,
     width: "33.33%",
     paddingVertical: 10,
   },
   squaishBtn: {
-    borderColor: "white",
-    backgroundColor: Colors.black,
+    // borderColor: "white",
+    // backgroundColor: Colors.black,
     width: "33.33%",
     borderTopRightRadius: 5,
     borderBottomRightRadius: 5,
@@ -487,24 +580,24 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5,
     paddingVertical: 10,
-    backgroundColor: Colors.blue,
+    // backgroundColor: Colors.blue,
   },
   portraitBtnActive: {
     width: "33.33%",
     paddingVertical: 10,
-    backgroundColor: Colors.blue,
+    // backgroundColor: Colors.blue,
   },
   squarishBtnActive: {
     width: "33.33%",
     borderTopRightRadius: 5,
     borderBottomRightRadius: 5,
     paddingVertical: 10,
-    backgroundColor: Colors.blue,
+    // backgroundColor: Colors.blue,
   },
   lpstxt: {
     fontSize: 20,
     textAlign: "center",
     fontWeight: "bold",
-    color,
+    // color,
   },
 });
